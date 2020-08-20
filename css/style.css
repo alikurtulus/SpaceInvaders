@@ -7,12 +7,13 @@ body{
     color: white;
     background-image: url('/images/space-background.jpg');
     background-size: cover;
-    background-repeat: no-repeat;
+    background-repeat: repeat;
 }
 #space-ship{
   width: 80px;
   height: 80px;
   margin: auto;
-  position: relative;
-  top:80vh;
+  position: absolute;
+  top:680px;
+  left:780px;
 }
