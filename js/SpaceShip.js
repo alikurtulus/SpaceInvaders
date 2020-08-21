@@ -1,25 +1,27 @@
 class SpaceShip{
     constructor(xPos, yPos, health){
-
         this.xPos = xPos
         this.yPos = yPos
         this.health = 100
     }
-    moveLeft(){
+    // When Spaceship moves left
+    movesLeft(){
+  
+    }
+    // When Spaceship moves right
+    movesRight(){
 
     }
-
-    moveRight(){
-
-    }
-
-    moveLeft(){
+    // When Spaceship moves down
+    movesDown(){
 
     }
-    moveUp(){
+    
+    // When Spaceship moves up
+    movesUp(){
 
     }
-
+    //When Spaceship fire its gun.
     fireBullet(){
 
     }
