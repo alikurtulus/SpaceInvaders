@@ -16,7 +16,6 @@ class SpaceShip{
     movesDown(){
 
     }
-    
     // When Spaceship moves up
     movesUp(){
 
