@@ -3,26 +3,30 @@ console.log("Connected")
 const spaceShip = document.getElementById('space-ship')
 const healthBar = document.getElementById('health-bar')
 const wound = document.getElementById('wound')
+const player = new SpaceShip(780, 680, 100, spaceShip)
 const checkKey = (e) => {
 
     e = e || window.event;
 
     if (e.keyCode == '38') {
         // up arrow
-        console.log(spaceShip.style.top)
-        console.log('sda')
+        player.movesUp()
     }
     else if (e.keyCode == '40') {
         // down arrow
+        player.movesDown()
     }
     else if (e.keyCode == '37') {
        // left arrow
+       player.movesLeft()
     }
     else if (e.keyCode == '39') {
        // right arrow
+       player.movesRight()
     }
     else if (e.keyCode == '32') {
         // fire
+        player.fireBullet()
      }
 
 }
