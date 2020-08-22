@@ -7,29 +7,29 @@ class SpaceShip{
     }
     // When Spaceship moves left
     movesLeft(){
-      if(this.xPos > 5){
+      if( this.xPos > 5){
         this.xPos -= 5
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
         this.xPos = 5
         this.selectedPlayer.style.left = this.xPos + "px" 
       }
-     
     }
     // When Spaceship moves right
     movesRight(){
-      if(this.xPos < 970 ){
+        console.log(this.xPos)
+      if( this.xPos < 1285 ){
         this.xPos += 5
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
-        this.xPos = 970
+        this.xPos = 1285
         this.selectedPlayer.style.left = this.xPos + "px"  
       }
      
     }
     // When Spaceship moves down
     movesDown(){
-       if(this.yPos < 720){
+       if( this.yPos < 720 ){
         this.yPos += 5
         this.selectedPlayer.style.top = this.yPos + "px" 
        }else{
@@ -40,7 +40,7 @@ class SpaceShip{
     }
     // When Spaceship moves up
     movesUp(){
-      if(this.yPos > 5){
+      if( this.yPos > 5 ){
         this.yPos -= 5
         this.selectedPlayer.style.top = this.yPos + "px"
       }else{
@@ -48,6 +48,115 @@ class SpaceShip{
         this.selectedPlayer.style.top = this.yPos + "px"
       }
      
+    }
+    movesUpLeft(){
+        if( this.yPos > 5   && this.xPos > 5 ){
+
+            this.yPos -= 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos -= 5
+            this.selectedPlayer.style.left = this.xPos + "px"
+        }
+        else if(this.yPos > 5 && this.xPos < 5){
+
+            this.yPos -= 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos = 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+        }
+        else if( this.yPos < 5 && this.xPos > 5){
+            this.yPos = 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos -= 5
+            this.selectedPlayer.style.left = this.xPos + "px"
+        }
+        else if( this.yPos < 5 && this.xPos < 5 ){
+            this.xPos = 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+            this.yPos = 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+        }
+    }
+    movesUpRight(){
+
+        if( this.yPos > 5 && this.xPos < 1285  ){
+            this.yPos -= 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos += 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+        }
+        else if( this.yPos > 5 && this.xPos > 1285 ){
+            this.yPos -= 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos = 1285
+            this.selectedPlayer.style.left = this.xPos + "px"  
+        }
+        else if( this.yPos < 5 && this.xPos < 1285 ){
+            this.yPos = 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos += 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+        }
+        else if( this.yPos < 5 && this.xPos > 1285 ){
+            this.yPos = 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos = 1285
+            this.selectedPlayer.style.left = this.xPos + "px"  
+          }
+    }
+    movesDownLeft(){
+        if( this.yPos < 720 && this.xPos > 5 ){
+            this.xPos -= 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+            this.yPos += 5
+            this.selectedPlayer.style.top = this.yPos + "px" 
+        }
+        else if(this.yPos < 720 && this.xPos < 5){
+            this.yPos += 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos = 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+        }
+        else if(this.yPos > 720 && this.xPos > 5){
+
+            this.yPos = 720
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos -= 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+        }
+        else if( this.yPos > 720 && this.xPos < 5){
+            this.xPos = 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+            this.yPos = 720
+            this.selectedPlayer.style.top = this.yPos + "px" 
+        }
+    }
+    movesDownRight(){
+        if( this.yPos < 720 &&  this.xPos < 1285  ){
+            this.yPos += 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos += 5
+            this.selectedPlayer.style.left = this.xPos + "px" 
+        }
+        else if( this.yPos < 720 &&  this.xPos > 1285 ){
+            this.xPos = 1285
+            this.selectedPlayer.style.left = this.xPos + "px"
+            this.yPos += 5
+            this.selectedPlayer.style.top = this.yPos + "px"
+            
+        }
+        else if( this.yPos > 720 &&  this.xPos < 1285 ){
+            this.xPos += 5
+            this.selectedPlayer.style.left = this.xPos + "px"
+            this.yPos = 720
+            this.selectedPlayer.style.top = this.yPos + "px"
+        }
+        else if( this.yPos > 720 && this.xPos > 1285 ){
+            this.yPos = 720
+            this.selectedPlayer.style.top = this.yPos + "px"
+            this.xPos = 1285
+            this.selectedPlayer.style.left = this.xPos + "px"  
+        }
     }
     //When Spaceship fire its gun.
     fireBullet(){
