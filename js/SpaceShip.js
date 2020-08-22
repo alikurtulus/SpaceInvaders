@@ -49,6 +49,7 @@ class SpaceShip{
       }
      
     }
+    // When Spaceship moves up-left 
     movesUpLeft(){
         if( this.yPos > 5   && this.xPos > 5 ){
 
@@ -77,6 +78,7 @@ class SpaceShip{
             this.selectedPlayer.style.top = this.yPos + "px"
         }
     }
+    // When Spaceship moves up-right
     movesUpRight(){
 
         if( this.yPos > 5 && this.xPos < 1285  ){
@@ -104,6 +106,7 @@ class SpaceShip{
             this.selectedPlayer.style.left = this.xPos + "px"  
           }
     }
+    // When Spaceship moves down-left
     movesDownLeft(){
         if( this.yPos < 720 && this.xPos > 5 ){
             this.xPos -= 5
@@ -131,6 +134,7 @@ class SpaceShip{
             this.selectedPlayer.style.top = this.yPos + "px" 
         }
     }
+    // When Spaceship moves down-right
     movesDownRight(){
         if( this.yPos < 720 &&  this.xPos < 1285  ){
             this.yPos += 5
@@ -160,6 +164,6 @@ class SpaceShip{
     }
     //When Spaceship fire its gun.
     fireBullet(){
-
+        
     }
 }
