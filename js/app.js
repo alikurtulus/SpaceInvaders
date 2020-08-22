@@ -1,13 +1,15 @@
 "use strict"
 console.log("Connected")
 const spaceShip = document.getElementById('space-ship')
+const healthBar = document.getElementById('health-bar')
+const wound = document.getElementById('wound')
 const checkKey = (e) => {
 
     e = e || window.event;
 
     if (e.keyCode == '38') {
         // up arrow
-        spaceShip.style.top ='75vh'
+        console.log(spaceShip.style.top)
         console.log('sda')
     }
     else if (e.keyCode == '40') {
@@ -25,5 +27,7 @@ const checkKey = (e) => {
 
 }
 document.onkeydown = checkKey;
+healthBar.style.cssText="background-color:#00FF00;width:140px;height:30px;border-radius:8px;"
+
 
 
