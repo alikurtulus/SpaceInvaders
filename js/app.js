@@ -5,11 +5,12 @@ const healthBar = document.getElementById('health-bar')
 const gameBoard = document.getElementById('game')
 const wound = document.getElementById('wound')
 const player = new SpaceShip(670, 680, 100, spaceShip)
-
+let enemy
+let enemies = []
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false};
 
 const createEnemies = () => {
-   const enemies = []
+
    let xPos = 0
    let yPos = 50
    let health = 100
@@ -18,6 +19,7 @@ const createEnemies = () => {
    let rightEnemyContainer
    let middleEnemyContainer
    for(let j = 0; j < 2; j++){
+
         enemyContainer = document.createElement('div')
         middleEnemyContainer = document.createElement('div')
         leftEnemyContainer = document.createElement('div')
@@ -25,12 +27,14 @@ const createEnemies = () => {
         rightEnemyContainer = document.createElement('div')
         rightEnemyContainer.textContent="."
         leftEnemyContainer.style.cssText="width:80px;"
-        rightEnemyContainer.style.cssText="width:40px;"
+        rightEnemyContainer.style.cssText="width:60px;"
         enemyContainer.appendChild(leftEnemyContainer)
-        for( let i = 0; i< 12; i++){
-            const enemy = new Enemy(xPos, yPos, health)
-            enemies.push(enemy)
+
+        for( let i = 0; i< 14; i++){
             const enemyDiv = document.createElement('div')
+            enemyDiv.id=i+"enemy"
+            let enemy = new Enemy(xPos, yPos, health, enemyDiv)
+            enemies.push(enemy)
             enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:relative;"
             enemyContainer.style.cssText="display:flex;width:100%;"
             enemyContainer.classList.add('enemy-container')
@@ -39,6 +43,7 @@ const createEnemies = () => {
             xPos += 5
             console.log(gameBoard)
         }
+
         enemyContainer.appendChild(middleEnemyContainer)
         enemyContainer.appendChild(rightEnemyContainer)
         xPos = 0
@@ -50,6 +55,24 @@ const createEnemies = () => {
   
 }
 createEnemies()
+const enemiesMovement = () => {
+    const randomMovement = Math.floor(Math.random() * 3);
+    if( randomMovement === 0){
+        enemies.map(en => en.movesLeft())
+    }
+    else if(randomMovement === 1){
+        enemies.map(en => en.movesRight())
+    }
+    else{
+        enemies.map(en => en.movesDown())
+    }
+
+}
+const enemyInterval = setInterval(()=>{
+    setTimeout(()=>{
+        enemiesMovement()
+    },5000)
+},1000)
 document.body.addEventListener('keydown', (e) => {
    
     e = e || window.event;
