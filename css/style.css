@@ -19,11 +19,10 @@ body{
     background-repeat:repeat;
     background-size: cover;
     overflow: hidden;
-
 }
 #space-ship{
-    width: 75px;
-    height: 75px;
+    width: 124px;
+    height: 124px;
     position: absolute;
     top:680px;
     left:48%;

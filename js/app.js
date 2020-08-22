@@ -2,18 +2,61 @@
 console.log("Connected")
 const spaceShip = document.getElementById('space-ship')
 const healthBar = document.getElementById('health-bar')
+const gameBoard = document.getElementById('game')
 const wound = document.getElementById('wound')
 const player = new SpaceShip(670, 680, 100, spaceShip)
 
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false};
 
+const createEnemies = () => {
+   const enemies = []
+   let xPos = 0
+   let yPos = 50
+   let health = 100
+   let enemyContainer
+   let leftEnemyContainer 
+   let rightEnemyContainer
+   let middleEnemyContainer
+   for(let j = 0; j < 2; j++){
+        enemyContainer = document.createElement('div')
+        middleEnemyContainer = document.createElement('div')
+        leftEnemyContainer = document.createElement('div')
+        leftEnemyContainer.textContent="."
+        rightEnemyContainer = document.createElement('div')
+        rightEnemyContainer.textContent="."
+        leftEnemyContainer.style.cssText="width:80px;"
+        rightEnemyContainer.style.cssText="width:40px;"
+        enemyContainer.appendChild(leftEnemyContainer)
+        for( let i = 0; i< 12; i++){
+            const enemy = new Enemy(xPos, yPos, health)
+            enemies.push(enemy)
+            const enemyDiv = document.createElement('div')
+            enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:relative;"
+            enemyContainer.style.cssText="display:flex;width:100%;"
+            enemyContainer.classList.add('enemy-container')
+            middleEnemyContainer.style.cssText="display:flex;"
+            middleEnemyContainer.appendChild(enemyDiv)
+            xPos += 5
+            console.log(gameBoard)
+        }
+        enemyContainer.appendChild(middleEnemyContainer)
+        enemyContainer.appendChild(rightEnemyContainer)
+        xPos = 0
+        yPos += 40
+        gameBoard.appendChild(enemyContainer)
+       
+   }
+   console.log(enemies)
+  
+}
+createEnemies()
 document.body.addEventListener('keydown', (e) => {
    
     e = e || window.event;
    if (e.keyCode in keysPressed){
           
        keysPressed[e.keyCode] = true;
-       console.log(keysPressed)
+
        if( keysPressed[38] && keysPressed[37]){
           player.movesUpLeft()
        }
@@ -27,7 +70,6 @@ document.body.addEventListener('keydown', (e) => {
            player.movesDownRight()
        }
        else if( keysPressed[38] ){
-           console.log('ad')
            player.movesUp()
        }
        else if( keysPressed[40] ){
