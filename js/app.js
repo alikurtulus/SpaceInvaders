@@ -7,11 +7,13 @@ const wound = document.getElementById('wound')
 const player = new SpaceShip(670, 680, 100, spaceShip,gameBoard)
 let enemy
 let enemies = []
+let enemyWidth = 64
+let enemyHeight = 64
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false};
 
 const createEnemies = () => {
 
-   let xPos = 0
+   let xPos = 150
    let yPos = 50
    let health = 100
    let enemyContainer
@@ -23,34 +25,33 @@ const createEnemies = () => {
         enemyContainer = document.createElement('div')
         middleEnemyContainer = document.createElement('div')
         leftEnemyContainer = document.createElement('div')
-        leftEnemyContainer.textContent="."
+        leftEnemyContainer.textContent="..................."
         rightEnemyContainer = document.createElement('div')
-        rightEnemyContainer.textContent="."
-        leftEnemyContainer.style.cssText="width:80px;"
-        rightEnemyContainer.style.cssText="width:60px;"
-        enemyContainer.appendChild(leftEnemyContainer)
+        rightEnemyContainer.textContent="..................."
+        leftEnemyContainer.style.cssText="width:150px;"
+        rightEnemyContainer.style.cssText="width:9px;"
+       
 
-        for( let i = 0; i< 15; i++){
+        for( let i = 0; i< 16; i++){
             const enemyDiv = document.createElement('div')
             enemyDiv.id=i+"enemy"
             let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard)
             enemies.push(enemy)
-            enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:relative;"
+            enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
             enemyContainer.style.cssText="display:flex;width:100%;"
             enemyContainer.classList.add('enemy-container')
             middleEnemyContainer.style.cssText="display:flex;"
             middleEnemyContainer.appendChild(enemyDiv)
-            xPos += 5
+            xPos += enemyWidth
         }
-        
+        enemyContainer.appendChild(leftEnemyContainer)
         enemyContainer.appendChild(middleEnemyContainer)
         enemyContainer.appendChild(rightEnemyContainer)
-        xPos = 0
-        yPos += 40
+        xPos = 150
+        yPos += enemyHeight
         gameBoard.appendChild(enemyContainer)
        
    }
-   console.log(enemies)
   
 }
 createEnemies()
@@ -65,27 +66,25 @@ const enemiesMovement = () => {
     else{
         enemies.map(en => en.movesDown())
     }
-   console.log(enemies)
+  
 }
 const createEnemyFire = () => {
     const selectedEnemy = Math.floor(Math.random() * enemies.length)
+    console.log(enemies[selectedEnemy].xPos, enemies[selectedEnemy].yPos)
     enemies[selectedEnemy].createBullet(enemies[selectedEnemy].xPos, enemies[selectedEnemy].yPos)
     setInterval(() => {
         enemies[selectedEnemy].fireBullet()
     },1000)
-
+   
 }
+const enemyBulletTimer =  setInterval(()=>{
+  
+    createEnemyFire()
+},2000)
 const enemyInterval = setInterval(()=>{
     enemiesMovement()
-  
-   
+    
 },1000)
-const enemyBullet = setInterval(() => {
-    createEnemyFire()
-},3000)
-
-
-
 
 document.body.addEventListener('keydown', (e) => {
    
@@ -98,7 +97,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesUpLeft()
@@ -107,7 +116,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesUpRight()
@@ -116,7 +135,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesDownLeft()
@@ -125,7 +154,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesDownRight()
@@ -134,7 +173,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesUp()
@@ -143,7 +192,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesDown()
@@ -152,7 +211,17 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesLeft()
@@ -161,17 +230,37 @@ document.body.addEventListener('keydown', (e) => {
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
-                    player.fireBullet()
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
                 },800)
             } 
             player.movesRight()
         }
         else if (keysPressed[32] ){
-           player.createBullet()
-           setInterval(() => {
-            player.fireBullet()
-           },800)
-          
+                player.createBullet()
+                setInterval(() => {
+                    const spaceShipsBullets =  player.fireBullet()
+                    spaceShipsBullets.map(bullet => {
+                        enemies.map(en => {
+                            if( (en.xPos < bullet.leftBullet.x && bullet.leftBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.leftBullet.y <=  en.yPos + enemyHeight && bullet.leftBullet.y > en.yPos) ||  
+                                (en.xPos < bullet.rightBullet.x && bullet.rightBullet.x < en.xPos + enemyWidth) 
+                                && (bullet.rightBullet.y <=   en.yPos + enemyHeight && bullet.rightBullet.y > en.yPos ) ){
+                                console.log('done')
+                            }
+                        })
+                    })
+                     
+                },800)
         }
    }
 });

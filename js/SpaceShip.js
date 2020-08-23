@@ -22,7 +22,7 @@ class SpaceShip{
     }
     // When Spaceship moves right
     movesRight(){
-        console.log(this.xPos)
+        
       if( this.xPos < 1285 ){
         this.xPos += 5
         this.bulletXPosLeft += 5
@@ -177,11 +177,13 @@ class SpaceShip{
     createBullet(){
       const  leftMissile = document.createElement('div')
       const  rightMissile = document.createElement('div')
+      let leftX = this.xPos + 1
       let rightX = this.xPos + 110
-      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+this.yPos+"px;left:"+this.xPos+"px;position:absolute;"
-      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+this.yPos+"px;left:"+rightX+"px;position:absolute;"
-      const leftBullet = new Bullet(this.xPos, this.yPos, leftMissile)
-      const rightBullet = new Bullet(rightX, this.yPos, rightMissile)
+      let yPos = this.yPos + 15
+      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
+      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
+      const leftBullet = new Bullet(leftX, yPos, leftMissile)
+      const rightBullet = new Bullet(rightX, yPos, rightMissile)
       this.bulletPos.push({leftBullet, rightBullet})
       this.gameBoard.appendChild(leftMissile)
       this.gameBoard.appendChild(rightMissile)
@@ -195,6 +197,6 @@ class SpaceShip{
             bul.rightBullet.moveUp()
 
         })
-
+       return this.bulletPos
     }
 }

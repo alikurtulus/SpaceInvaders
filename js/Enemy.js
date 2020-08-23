@@ -1,5 +1,5 @@
 class Enemy{
-    constructor(xPos, yPos,health,selectedEnemy, gameBoard){
+    constructor(xPos, yPos, health, selectedEnemy, gameBoard){
         this.xPos = xPos
         this.yPos = yPos
         this.selectedEnemy = selectedEnemy
@@ -7,10 +7,9 @@ class Enemy{
         this.bulletPos = []
         this.gameBoard = gameBoard
     }
-     // When Spaceship moves left
+     // When Enemy moves left
      movesLeft(){
         if(this.xPos > 5 ){
-
             this.xPos -= 5
             this.selectedEnemy.style.left = this.xPos + "px" 
         }else{
@@ -18,7 +17,7 @@ class Enemy{
             this.selectedEnemy.style.left = this.xPos + "px" 
         }
     }
-    // When Spaceship moves right
+    // When Enemy moves right
     movesRight(){
         if( this.xPos < 1135 ){
 
@@ -43,11 +42,12 @@ class Enemy{
     createBullet(xPos, yPos){
         const bullet = document.createElement('div')
         bullet.classList.add('enemy-bullet')
-        console.log(xPos, yPos)
-        bullet.style.cssText="width:32px;height:32px;background-image:url('/images/enemy-bullet.png');background-size:cover;left:"+xPos+"px;top:"+yPos+"px;position:absolute;"
-        const enemyBullet = new Bullet(xPos, yPos, bullet )
+        let xBullet = xPos + 16
+        let yBullet = yPos + 32
+        bullet.style.cssText="width:32px;height:32px;background-image:url('/images/enemy-bullet.png');background-size:cover;left:"+xBullet+"px;top:"+yBullet+"px;position:absolute;"
+        const enemyBullet = new Bullet(xBullet, yBullet, bullet )
         this.bulletPos.push(enemyBullet)
-        this.selectedEnemy.appendChild(bullet)
+        this.gameBoard.appendChild(bullet)
 
     }
     fireBullet(){

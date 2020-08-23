@@ -6,11 +6,12 @@ class Bullet {
 
     }
     moveUp(){
-      this.y -= 5
+      this.y -= 10
       this.targetElement.style.top = this.y + "px"
 
     }
     moveDown(){
+        this.targetElement.style.left = this.x + "px"
         this.y += 10
         this.targetElement.style.top = this.y + "px"
     }
