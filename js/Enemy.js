@@ -40,20 +40,18 @@ class Enemy{
             this.selectedEnemy.style.top = this.yPos + "px" 
         }
     }
-    createBullet(){
+    createBullet(xPos, yPos){
         const bullet = document.createElement('div')
         bullet.classList.add('enemy-bullet')
-        let xBulletPos = this.xPos + 16
-        let yBulletPos = this.yPos - 16
-        bullet.style.cssText="width:32px;height:32px;background-image:url('/images/enemy-bullet.png');background-size:cover;left:"+xBulletPos+"px;top:"+yBulletPos+"px;"
-        const enemyBullet = new Bullet(xBulletPos, yBulletPos, bullet )
+        console.log(xPos, yPos)
+        bullet.style.cssText="width:32px;height:32px;background-image:url('/images/enemy-bullet.png');background-size:cover;left:"+xPos+"px;top:"+yPos+"px;position:absolute;"
+        const enemyBullet = new Bullet(xPos, yPos, bullet )
         this.bulletPos.push(enemyBullet)
         this.selectedEnemy.appendChild(bullet)
 
     }
     fireBullet(){
         this.bulletPos.map(bul => {
-        
             bul.moveDown()
             
         })

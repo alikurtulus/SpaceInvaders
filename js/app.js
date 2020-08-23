@@ -33,7 +33,7 @@ const createEnemies = () => {
         for( let i = 0; i< 15; i++){
             const enemyDiv = document.createElement('div')
             enemyDiv.id=i+"enemy"
-            let enemy = new Enemy(xPos, yPos, health, enemyDiv)
+            let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard)
             enemies.push(enemy)
             enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:relative;"
             enemyContainer.style.cssText="display:flex;width:100%;"
@@ -42,7 +42,7 @@ const createEnemies = () => {
             middleEnemyContainer.appendChild(enemyDiv)
             xPos += 5
         }
-
+        
         enemyContainer.appendChild(middleEnemyContainer)
         enemyContainer.appendChild(rightEnemyContainer)
         xPos = 0
@@ -65,13 +65,28 @@ const enemiesMovement = () => {
     else{
         enemies.map(en => en.movesDown())
     }
+   console.log(enemies)
+}
+const createEnemyFire = () => {
+    const selectedEnemy = Math.floor(Math.random() * enemies.length)
+    enemies[selectedEnemy].createBullet(enemies[selectedEnemy].xPos, enemies[selectedEnemy].yPos)
+    setInterval(() => {
+        enemies[selectedEnemy].fireBullet()
+    },1000)
 
 }
 const enemyInterval = setInterval(()=>{
+    enemiesMovement()
   
-        enemiesMovement()
    
 },1000)
+const enemyBullet = setInterval(() => {
+    createEnemyFire()
+},3000)
+
+
+
+
 document.body.addEventListener('keydown', (e) => {
    
     e = e || window.event;
@@ -79,85 +94,85 @@ document.body.addEventListener('keydown', (e) => {
           
        keysPressed[e.keyCode] = true;
 
-       if( keysPressed[38] && keysPressed[37]){
+        if( keysPressed[38] && keysPressed[37]){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesUpLeft()
-       }
-       else if( keysPressed[38] && keysPressed[39] ){
+        }
+        else if( keysPressed[38] && keysPressed[39] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesUpRight()
-       }
-       else if( keysPressed[40] && keysPressed[37] ){
+        }
+        else if( keysPressed[40] && keysPressed[37] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesDownLeft()
-       }
-       else if( keysPressed[40] && keysPressed[39] ){
+        }
+        else if( keysPressed[40] && keysPressed[39] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesDownRight()
-       }
-       else if( keysPressed[38] ){
+        }
+        else if( keysPressed[38] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesUp()
-       }
-       else if( keysPressed[40] ){
+        }
+        else if( keysPressed[40] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesDown()
-       }
-       else if( keysPressed[37] ){
+        }
+        else if( keysPressed[37] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesLeft()
-       }
-       else if( keysPressed[39] ){
+        }
+        else if( keysPressed[39] ){
             if( keysPressed[32] ){
                 player.createBullet()
                 setInterval(() => {
                     player.fireBullet()
-                },1000)
+                },800)
             } 
             player.movesRight()
-       }
-       else if (keysPressed[32] ){
+        }
+        else if (keysPressed[32] ){
            player.createBullet()
            setInterval(() => {
             player.fireBullet()
-           },1000)
+           },800)
           
-       }
+        }
    }
 });
 document.body.addEventListener('keyup', (e) => {
