@@ -4,7 +4,7 @@ const spaceShip = document.getElementById('space-ship')
 const healthBar = document.getElementById('health-bar')
 const gameBoard = document.getElementById('game')
 const wound = document.getElementById('wound')
-const player = new SpaceShip(670, 680, 100, spaceShip)
+const player = new SpaceShip(670, 680, 100, spaceShip,gameBoard)
 let enemy
 let enemies = []
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false};
@@ -30,7 +30,7 @@ const createEnemies = () => {
         rightEnemyContainer.style.cssText="width:60px;"
         enemyContainer.appendChild(leftEnemyContainer)
 
-        for( let i = 0; i< 14; i++){
+        for( let i = 0; i< 15; i++){
             const enemyDiv = document.createElement('div')
             enemyDiv.id=i+"enemy"
             let enemy = new Enemy(xPos, yPos, health, enemyDiv)
@@ -41,7 +41,6 @@ const createEnemies = () => {
             middleEnemyContainer.style.cssText="display:flex;"
             middleEnemyContainer.appendChild(enemyDiv)
             xPos += 5
-            console.log(gameBoard)
         }
 
         enemyContainer.appendChild(middleEnemyContainer)
@@ -69,9 +68,9 @@ const enemiesMovement = () => {
 
 }
 const enemyInterval = setInterval(()=>{
-    setTimeout(()=>{
+  
         enemiesMovement()
-    },5000)
+   
 },1000)
 document.body.addEventListener('keydown', (e) => {
    
@@ -81,29 +80,83 @@ document.body.addEventListener('keydown', (e) => {
        keysPressed[e.keyCode] = true;
 
        if( keysPressed[38] && keysPressed[37]){
-          player.movesUpLeft()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesUpLeft()
        }
        else if( keysPressed[38] && keysPressed[39] ){
-          player.movesUpRight()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesUpRight()
        }
        else if( keysPressed[40] && keysPressed[37] ){
-          player.movesDownLeft()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesDownLeft()
        }
        else if( keysPressed[40] && keysPressed[39] ){
-           player.movesDownRight()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesDownRight()
        }
        else if( keysPressed[38] ){
-           player.movesUp()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesUp()
        }
        else if( keysPressed[40] ){
-           player.movesDown()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesDown()
        }
        else if( keysPressed[37] ){
-           player.movesLeft()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesLeft()
        }
        else if( keysPressed[39] ){
-           console.log('ad')
-           player.movesRight()
+            if( keysPressed[32] ){
+                player.createBullet()
+                setInterval(() => {
+                    player.fireBullet()
+                },1000)
+            } 
+            player.movesRight()
+       }
+       else if (keysPressed[32] ){
+           player.createBullet()
+           setInterval(() => {
+            player.fireBullet()
+           },1000)
+          
        }
    }
 });
