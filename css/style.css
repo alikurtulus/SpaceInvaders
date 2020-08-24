@@ -35,7 +35,7 @@ body{
         background-position-y: 256px;
     }
 }
-#score-container{
+#left-container{
     background-color: #0f0f18;
     color: white;
     width: 4vw;

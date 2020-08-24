@@ -5,6 +5,7 @@ const healthPer = document.getElementById('health')
 const gameBoard = document.getElementById('game')
 const woundPer = document.getElementById('wound')
 const scoreDisplay = document.getElementById('score')
+const bombNumbersDisplay = document.getElementById('bomb-numbers')
 const player = new SpaceShip(670, 680, 100, spaceShip,gameBoard)
 let enemy
 let enemies = []
@@ -164,7 +165,11 @@ document.body.addEventListener('keydown', (e) => {
 
         if( keysPressed[38] && keysPressed[37]){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -173,7 +178,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[38] && keysPressed[39] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -182,7 +191,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[40] && keysPressed[37] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -191,7 +204,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[40] && keysPressed[39] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -200,7 +217,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[38] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -209,7 +230,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[40] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -218,7 +243,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[37] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
@@ -227,7 +256,11 @@ document.body.addEventListener('keydown', (e) => {
         }
         else if( keysPressed[39] ){
             if( keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                    checkBulletSucceed()
                 },800)
@@ -235,7 +268,11 @@ document.body.addEventListener('keydown', (e) => {
             player.movesRight()
         }
         else if (keysPressed[32] ){
-                player.createBullet()
+                if(player.missileNumbers > 0){
+                    player.createBullet()
+                    player.missileNumbers -= 2
+                    bombNumbersDisplay.innerText = player.missileNumbers
+                }
                 setInterval(() => {
                     checkBulletSucceed()
                 },800)
