@@ -68,7 +68,7 @@ body{
     position: relative;
     top:3vh;
     font-size: 1.9em;
-    border-bottom:1px solid red;
+    border-bottom:2px solid red;
     
 }
 #general-stats-container{
@@ -91,6 +91,7 @@ body{
     height: 28px;
     position: relative;
     left: 1.3em;
+    bottom: 0.2em;
 }
 .icon{
     width: 40px;
