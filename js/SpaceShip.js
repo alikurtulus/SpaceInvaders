@@ -178,8 +178,8 @@ class SpaceShip{
       let leftX = this.xPos + 1
       let rightX = this.xPos + 110
       let yPos = this.yPos + 15
-      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
-      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
+      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
+      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
       const leftBullet = new Bullet(leftX, yPos, leftMissile)
       const rightBullet = new Bullet(rightX, yPos, rightMissile)
       this.bulletPos.push(rightBullet)
@@ -201,8 +201,11 @@ class SpaceShip{
         console.log(bullet)
         console.log(this.bulletPos.length)
         this.bulletPos.splice(index, 1)
-        console.log(this.bulletPos.length)
-        bullet.targetElement.style.display="none"
+        bullet.targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
+        setTimeout(() => {
+            bullet.targetElement.style.display="none"
+        },800)
+      
        
     }
 }

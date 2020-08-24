@@ -44,7 +44,7 @@ class Enemy{
         bullet.classList.add('enemy-bullet')
         let xBullet = xPos + 16
         let yBullet = yPos + 32
-        bullet.style.cssText="width:32px;height:32px;background-image:url('/images/enemy-bullet.png');background-size:cover;left:"+ xBullet +"px;top:"+ yBullet +"px;position:absolute;"
+        bullet.style.cssText="width:32px;height:32px;background-image:url('/assets/images/enemy-bullet.png');background-size:cover;left:"+ xBullet +"px;top:"+ yBullet +"px;position:absolute;"
         const enemyBullet = new Bullet(xBullet, yBullet, bullet )
         this.bulletPos.push(enemyBullet)
         this.gameBoard.appendChild(bullet)
@@ -59,7 +59,7 @@ class Enemy{
     }
     wounded(){
         this.health -= 50
-        this.selectedEnemy.style.backgroundImage = "url('/images/wound-enemy.png')"
+        this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
     }
     clearEnemy(){
         this.selectedEnemy.style.display = "none"

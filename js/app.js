@@ -6,6 +6,10 @@ const gameBoard = document.getElementById('game')
 const woundPer = document.getElementById('wound')
 const scoreDisplay = document.getElementById('score')
 const bombNumbersDisplay = document.getElementById('bomb-numbers')
+const backDropModal = document.querySelector('.backdrop')
+const modalContainer = document.querySelector('.modal')
+
+
 const player = new SpaceShip(670, 680, 100, spaceShip,gameBoard)
 let enemy
 let enemies = []
@@ -13,7 +17,7 @@ let enemyWidth = 64
 let enemyHeight = 64
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false}
 let score = 0
-let enemiesNumbers = 15
+let enemiesNumbers = 16
 let temporaryEnemies = []
 let deletedEnemiesIndex = []
 let allEnemies = []
@@ -22,7 +26,7 @@ let woundPercent = 0
 
 const createEnemies = () => {
 
-   let xPos = 150
+   let xPos = 140
    let yPos = 50
    let health = 100
    let enemyContainer
@@ -34,10 +38,10 @@ const createEnemies = () => {
         enemyContainer = document.createElement('div')
         middleEnemyContainer = document.createElement('div')
         leftEnemyContainer = document.createElement('div')
-        leftEnemyContainer.textContent="..................."
+        leftEnemyContainer.textContent=""
         rightEnemyContainer = document.createElement('div')
-        rightEnemyContainer.textContent="..................."
-        leftEnemyContainer.style.cssText="width:150px;"
+        rightEnemyContainer.textContent=""
+        leftEnemyContainer.style.cssText="width:140px;"
         rightEnemyContainer.style.cssText="width:9px;"
        
         for( let i = 0; i< enemiesNumbers; i++){
@@ -46,13 +50,14 @@ const createEnemies = () => {
             let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard)
             enemies.push(enemy)
             temporaryEnemies.push(enemy)
-            enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
+            enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
             enemyContainer.style.cssText="display:flex;width:100%;"
             enemyContainer.classList.add('enemy-container')
             middleEnemyContainer.style.cssText="display:flex;"
             middleEnemyContainer.appendChild(enemyDiv)
             xPos += enemyWidth
         }
+        
         enemyContainer.appendChild(leftEnemyContainer)
         enemyContainer.appendChild(middleEnemyContainer)
         enemyContainer.appendChild(rightEnemyContainer)
@@ -94,12 +99,14 @@ const createEnemyFire = () => {
     let selectedEnemyIndex = chooseAvailableEnemy()
     temporaryEnemies[selectedEnemyIndex].createBullet(temporaryEnemies[selectedEnemyIndex].xPos, temporaryEnemies[selectedEnemyIndex].yPos)
     
-    setInterval(() => {
+    const enemyBulletMovementTimer = setInterval(() => {
         temporaryEnemies[selectedEnemyIndex].fireBullet()
         if(temporaryEnemies[selectedEnemyIndex]){
             enemies.map(en => en.bulletPos.map((b,index) => {
                 console.log(b.x, b.y, player.xPos, player.yPos)
-                if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth) &&  (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
+                if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth)
+                    && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
+                        
                     player.health -= 20
                     injuredNumbers += 1
                     woundPercent += injuredNumbers * 20
@@ -107,16 +114,14 @@ const createEnemyFire = () => {
                     woundPer.style.backgroundColor = "red"
                     healthPer.style.width = player.health + "%"
                     en.clearBullet(index)
-                    b.targetElement.style.backgroundImage ="url('/images/bomb.png')"
+                    b.targetElement.style.backgroundImage ="url('/assets/images/bomb.png')"
                     setTimeout(() => {
                         b.targetElement.style.display = "none"
                     },1000)
                   
-                   
                 }
             }))
            
-
         }
        
     },800)
