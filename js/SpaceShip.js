@@ -6,13 +6,14 @@ class SpaceShip{
         this.health = health
         this.gameBoard = gameBoard
         this.bulletPos = []
+        this.playerWidth = 124
+        this.playerHeight = 124
     }
     // When Spaceship moves left
     movesLeft(){
       if( this.xPos > 5){
         this.xPos -= 5
-        this.bulletXPosLeft -= 5
-        this.bulletXPosRight -= 5 
+      
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
         this.xPos = 5
@@ -25,8 +26,7 @@ class SpaceShip{
         
       if( this.xPos < 1285 ){
         this.xPos += 5
-        this.bulletXPosLeft += 5
-        this.bulletXPosRight += 5 
+      
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
         this.xPos = 1285
@@ -38,7 +38,6 @@ class SpaceShip{
     movesDown(){
        if( this.yPos < 720 ){
         this.yPos += 5
-        this.bulletYPos += 5
         this.selectedPlayer.style.top = this.yPos + "px" 
        }else{
         this.yPos = 720
@@ -50,7 +49,6 @@ class SpaceShip{
     movesUp(){
       if( this.yPos > 5 ){
         this.yPos -= 5
-        this.bulletYPos -= 5
         this.selectedPlayer.style.top = this.yPos + "px"
       }else{
         this.yPos = 5
@@ -63,9 +61,8 @@ class SpaceShip{
         if( this.yPos > 5   && this.xPos > 5 ){
 
             this.yPos -= 5
-            this.bulletYPos -= 5
-            this.bulletXPosLeft -= 5
-            this.bulletXPosRight -= 5 
+         
+        
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos -= 5
             this.selectedPlayer.style.left = this.xPos + "px"
@@ -205,8 +202,6 @@ class SpaceShip{
         this.bulletPos.splice(index, 1)
         console.log(this.bulletPos.length)
         bullet.targetElement.style.display="none"
-        
-       
        
     }
 }

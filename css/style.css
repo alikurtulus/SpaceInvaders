@@ -56,3 +56,9 @@ body{
     left:1vw;
     margin-bottom: 0.2em;
 }
+#health-bar{
+    display: flex;
+    width: 100%;
+    border-radius: 8px;
+    height: 30px;
+}

@@ -1,9 +1,9 @@
 "use strict"
 console.log("Connected")
 const spaceShip = document.getElementById('space-ship')
-const healthBar = document.getElementById('health-bar')
+const healthPer = document.getElementById('health')
 const gameBoard = document.getElementById('game')
-const wound = document.getElementById('wound')
+const woundPer = document.getElementById('wound')
 const scoreDisplay = document.getElementById('score')
 const player = new SpaceShip(670, 680, 100, spaceShip,gameBoard)
 let enemy
@@ -12,8 +12,12 @@ let enemyWidth = 64
 let enemyHeight = 64
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false}
 let score = 0
-let enemiesNumbers = 16
-let selectedEnemyIndex
+let enemiesNumbers = 15
+let temporaryEnemies = []
+let deletedEnemiesIndex = []
+let allEnemies = []
+let injuredNumbers = 0
+let woundPercent = 0
 
 const createEnemies = () => {
 
@@ -40,6 +44,7 @@ const createEnemies = () => {
             enemyDiv.id=i+"enemy"
             let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard)
             enemies.push(enemy)
+            temporaryEnemies.push(enemy)
             enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
             enemyContainer.style.cssText="display:flex;width:100%;"
             enemyContainer.classList.add('enemy-container')
@@ -53,10 +58,15 @@ const createEnemies = () => {
         xPos = 150
         yPos += enemyHeight
         gameBoard.appendChild(enemyContainer)
-       
    }
   
 }
+const createEnemiesArr = () => {
+    for(let i = 0; i < 30; i++){
+        allEnemies.push(i)
+    }
+}
+createEnemiesArr()
 createEnemies()
 const enemiesMovement = () => {
     const randomMovement = Math.floor(Math.random() * 3);
@@ -71,13 +81,44 @@ const enemiesMovement = () => {
     }
   
 }
+
+const chooseAvailableEnemy = () => {
+   
+    allEnemies = allEnemies.filter( x => !deletedEnemiesIndex.includes(x))
+    return allEnemies[Math.floor(Math.random() * allEnemies.length)]
+}
+
 const createEnemyFire = () => {
-    selectedEnemyIndex = Math.floor(Math.random() * enemies.length)
-    console.log(enemies[selectedEnemyIndex].xPos, enemies[selectedEnemyIndex].yPos)
-    enemies[selectedEnemyIndex].createBullet(enemies[selectedEnemyIndex].xPos, enemies[selectedEnemyIndex].yPos)
-    const bulletMovesTimer = setInterval(() => {
-        enemies[selectedEnemyIndex].fireBullet()
-    },1000)
+  
+    let selectedEnemyIndex = chooseAvailableEnemy()
+    temporaryEnemies[selectedEnemyIndex].createBullet(temporaryEnemies[selectedEnemyIndex].xPos, temporaryEnemies[selectedEnemyIndex].yPos)
+    
+    setInterval(() => {
+        temporaryEnemies[selectedEnemyIndex].fireBullet()
+        if(temporaryEnemies[selectedEnemyIndex]){
+            enemies.map(en => en.bulletPos.map((b,index) => {
+                console.log(b.x, b.y, player.xPos, player.yPos)
+                if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth) &&  (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
+                    player.health -= 20
+                    injuredNumbers += 1
+                    woundPercent += injuredNumbers * 20
+                    woundPer.style.width  = woundPercent + "%"
+                    woundPer.style.backgroundColor = "red"
+                    healthPer.style.width = player.health + "%"
+                    en.clearBullet(index)
+                    b.targetElement.style.backgroundImage ="url('/images/bomb.png')"
+                    setTimeout(() => {
+                        b.targetElement.style.display = "none"
+                    },1000)
+                  
+                   
+                }
+            }))
+           
+
+        }
+       
+    },800)
    
 }
 const enemyBulletTimer =  setInterval(()=>{
@@ -85,26 +126,25 @@ const enemyBulletTimer =  setInterval(()=>{
 },2000)
 const enemyInterval = setInterval(()=>{
     enemiesMovement()
-    
 },1000)
 const checkBulletSucceed = () => {
     let spaceShipsBullets =  player.fireBullet()
         spaceShipsBullets.map((bullet,bulletIndex) => {
             enemies.map((en,index) => {
-                if( (en.xPos < bullet.x && bullet.x < en.xPos + enemyWidth) 
-                    && (bullet.y + 10 <=  en.yPos + enemyHeight && bullet.y > en.yPos)){
+                if( (en.xPos <= bullet.x && bullet.x <= en.xPos + enemyWidth) 
+                    && (bullet.y + 10 <=  en.yPos + enemyHeight && bullet.y >= en.yPos)){
                     if(en.health > 0){
                         en.wounded()
                         player.clearBullet(bullet,bulletIndex)
                     }
                     else{
-                        console.log(enemies.length)
                         en.clearEnemy()
                         en.clearBullet(index)
+                        enemiesNumbers -= 1
                         enemies.splice(index,1)
                         player.clearBullet(bullet, bulletIndex)
-                        console.log(enemies.length)
-                        enemiesNumbers -= 1
+                        deletedEnemiesIndex.push(index)
+                       
                         score += 20
                     }
                     score += 10
@@ -205,7 +245,7 @@ document.body.addEventListener('keydown', (e) => {
 document.body.addEventListener('keyup', (e) => {
      keysPressed[e.keyCode] = false;
  });
-healthBar.style.cssText="background-color:#00FF00;width:140px;height:30px;border-radius:8px;"
+healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
 
 
 
