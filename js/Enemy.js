@@ -57,4 +57,15 @@ class Enemy{
         })
 
     }
+    wounded(){
+        this.health -= 50
+        this.selectedEnemy.style.backgroundImage = "url('/images/wound-enemy.png')"
+    }
+    clearEnemy(){
+        this.selectedEnemy.style.display = "none"
+
+    }
+    clearBullet(index){
+       this.bulletPos.splice(index, 1)
+    }
 }

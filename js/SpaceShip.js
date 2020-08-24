@@ -184,7 +184,8 @@ class SpaceShip{
       rightMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
       const leftBullet = new Bullet(leftX, yPos, leftMissile)
       const rightBullet = new Bullet(rightX, yPos, rightMissile)
-      this.bulletPos.push({leftBullet, rightBullet})
+      this.bulletPos.push(rightBullet)
+      this.bulletPos.push(leftBullet)
       this.gameBoard.appendChild(leftMissile)
       this.gameBoard.appendChild(rightMissile)
      
@@ -192,11 +193,20 @@ class SpaceShip{
     //When Spaceship fire its gun.
     fireBullet(){
         this.bulletPos.map(bul => {
-        
-            bul.leftBullet.moveUp()
-            bul.rightBullet.moveUp()
-
+            
+            bul.moveUp()
+           
         })
        return this.bulletPos
+    }
+    clearBullet(bullet, index){
+        console.log(bullet)
+        console.log(this.bulletPos.length)
+        this.bulletPos.splice(index, 1)
+        console.log(this.bulletPos.length)
+        bullet.targetElement.style.display="none"
+        
+       
+       
     }
 }
