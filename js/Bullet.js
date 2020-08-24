@@ -6,7 +6,7 @@ class Bullet {
 
     }
     moveUp(){
-      this.y -= 10
+      this.y -= 15
       this.targetElement.style.top = this.y + "px"
 
     }

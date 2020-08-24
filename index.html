@@ -7,12 +7,29 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
+        <div class="backdrop"></div>
+        <div class="modal"></div>
         <div class="container">
-            <div id="score-container">Score: <span id="score">0</span></div>
             <div id="game">
-                <div id="space-ship"><img  src="/images/spaceship.png"></div>
+                <div id="space-ship"><img  src="/assets/images/spaceship.png"></div>
             </div>
-            <div id="health-container"><div id="health-title">Health</div> <div id="health-bar"><span id="wound"></span></div></div>
+            <div id="stats-container">
+                <h2 id="stats-title">Stats</h2>
+                <div id="health-container">
+                    <img class=" heart-icon" src="/assets/images/heartbeat.png">
+                    <div id="health-bar"><div id="health"></div><div id="wound"></div></div>
+                </div>
+                <div id="general-stats-container">
+                    <div id="score-container">
+                        <img class="icon" src="/assets/images/explosion.png" >
+                        <span class="stats-content">Score: <span id="score">0</span></span>
+                    </div>
+                    <div id="bomb-number-container">
+                        <img class="icon" src="/assets/images/bullet.png">
+                        <span class="stats-content">Bombs: <span id="bomb-numbers">100</span></span>
+                    </div>
+                </div>
+            </div>
         </div>
         <script src="js/Bullet.js"></script>
         <script src="js/SpaceShip.js"></script>

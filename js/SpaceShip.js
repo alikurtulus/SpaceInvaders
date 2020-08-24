@@ -6,13 +6,15 @@ class SpaceShip{
         this.health = health
         this.gameBoard = gameBoard
         this.bulletPos = []
+        this.playerWidth = 124
+        this.playerHeight = 124
+        this.missileNumbers = 100
     }
     // When Spaceship moves left
     movesLeft(){
       if( this.xPos > 5){
         this.xPos -= 5
-        this.bulletXPosLeft -= 5
-        this.bulletXPosRight -= 5 
+      
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
         this.xPos = 5
@@ -25,8 +27,7 @@ class SpaceShip{
         
       if( this.xPos < 1285 ){
         this.xPos += 5
-        this.bulletXPosLeft += 5
-        this.bulletXPosRight += 5 
+      
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
         this.xPos = 1285
@@ -38,7 +39,6 @@ class SpaceShip{
     movesDown(){
        if( this.yPos < 720 ){
         this.yPos += 5
-        this.bulletYPos += 5
         this.selectedPlayer.style.top = this.yPos + "px" 
        }else{
         this.yPos = 720
@@ -50,7 +50,6 @@ class SpaceShip{
     movesUp(){
       if( this.yPos > 5 ){
         this.yPos -= 5
-        this.bulletYPos -= 5
         this.selectedPlayer.style.top = this.yPos + "px"
       }else{
         this.yPos = 5
@@ -63,9 +62,8 @@ class SpaceShip{
         if( this.yPos > 5   && this.xPos > 5 ){
 
             this.yPos -= 5
-            this.bulletYPos -= 5
-            this.bulletXPosLeft -= 5
-            this.bulletXPosRight -= 5 
+         
+        
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos -= 5
             this.selectedPlayer.style.left = this.xPos + "px"
@@ -180,11 +178,12 @@ class SpaceShip{
       let leftX = this.xPos + 1
       let rightX = this.xPos + 110
       let yPos = this.yPos + 15
-      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
-      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
+      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
+      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
       const leftBullet = new Bullet(leftX, yPos, leftMissile)
       const rightBullet = new Bullet(rightX, yPos, rightMissile)
-      this.bulletPos.push({leftBullet, rightBullet})
+      this.bulletPos.push(rightBullet)
+      this.bulletPos.push(leftBullet)
       this.gameBoard.appendChild(leftMissile)
       this.gameBoard.appendChild(rightMissile)
      
@@ -192,11 +191,21 @@ class SpaceShip{
     //When Spaceship fire its gun.
     fireBullet(){
         this.bulletPos.map(bul => {
-        
-            bul.leftBullet.moveUp()
-            bul.rightBullet.moveUp()
-
+            
+            bul.moveUp()
+           
         })
        return this.bulletPos
+    }
+    clearBullet(bullet, index){
+        console.log(bullet)
+        console.log(this.bulletPos.length)
+        this.bulletPos.splice(index, 1)
+        bullet.targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
+        setTimeout(() => {
+            bullet.targetElement.style.display="none"
+        },800)
+      
+       
     }
 }
