@@ -30,10 +30,7 @@ let woundPercent = 0
 let soundContent
 let soundImgIcon
 let isSoundOff = false
-const modalWinner = new Modal('Congratulations', 'Winner', '#3FB379', modalContainer, 
-      score, player.health, player.missileNumbers, 'Try Again!',"winner-card-btn","winner-card")
-const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
-      score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+
 const modalPause = new Modal('Space Invaders', 'Killer', '#3FB379', modalContainer,
       score, player.health, player.missileNumbers, 'Continue', 'pause-card-btn', 'pause-card')
 let instructionSliderIndex = 0
@@ -58,7 +55,7 @@ const createMainModal = () => {
     const mainContainer = document.createElement('div')
     mainContainer.style.padding = "10px"
     const header = document.createElement('div')
-    header.style.cssText="width:100%;padding:1em;color:white;position:relative;top:0;text-align:center;margin-bottom:1em;left:0;background-color:#0f4c75;"
+    header.style.cssText="width:100%;padding:1em;color:white;position:relative;top:0;text-align:center;margin-bottom:1em;left:0;background-color:#0f4c75;font-size:1.4em;"
     const title = document.createElement('h2')
     title.innerText = "Space Invaders"
     header.appendChild(title)
@@ -223,38 +220,48 @@ const init = () => {
     }
     
     const createEnemyFire = () => {
-      
-        let selectedEnemyIndex = chooseAvailableEnemy()
-        temporaryEnemies[selectedEnemyIndex].createBullet(temporaryEnemies[selectedEnemyIndex].xPos, temporaryEnemies[selectedEnemyIndex].yPos)
-        
-        const enemyBulletMovementTimer = setInterval(() => {
-            temporaryEnemies[selectedEnemyIndex].fireBullet()
-            if(temporaryEnemies[selectedEnemyIndex]){
-                temporaryEnemies.map(en => en.bulletPos.map((b,index) => {
-                    if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth)
-                        && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
-                        if(!isSoundOff){
-                            enemyMissileExplosionSound.play()
+        if(chooseAvailableEnemy() >= 0) {
+            let selectedEnemyIndex = chooseAvailableEnemy()
+            temporaryEnemies[selectedEnemyIndex].createBullet(temporaryEnemies[selectedEnemyIndex].xPos, temporaryEnemies[selectedEnemyIndex].yPos)
+            const enemyBulletMovementTimer = setInterval(() => {
+                temporaryEnemies[selectedEnemyIndex].fireBullet()
+                if(temporaryEnemies[selectedEnemyIndex]){
+                    temporaryEnemies.map(en => en.bulletPos.map((b,index) => {
+                        if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth)
+                            && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
+    
+                            if(!isSoundOff){
+                                enemyMissileExplosionSound.play()
+                            }
+                            if(player.health > 0){
+                                player.health -= 20
+                                injuredNumbers += 1
+                                woundPercent += injuredNumbers * 20
+                                woundPer.style.width  = woundPercent + "%"
+                                woundPer.style.backgroundColor = "red"
+                                healthPer.style.width = player.health + "%"
+                                en.clearBullet(index)
+                                b.targetElement.style.backgroundImage ="url('/assets/images/bomb.png')"
+                                setTimeout(() => {
+                                    b.targetElement.style.display = "none"
+                                },1000)
+                            }else{
+                                console.log('lost')
+                                modalContainer.innerHTML = ""
+                                const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                                score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                                modalLooser.createModal()
+                                modalContainer.style.display = "block"
+                                backDropModal.style.display = "block"
+                            }
+                          
                         }
-                        player.health -= 20
-                        injuredNumbers += 1
-                        woundPercent += injuredNumbers * 20
-                        woundPer.style.width  = woundPercent + "%"
-                        woundPer.style.backgroundColor = "red"
-                        healthPer.style.width = player.health + "%"
-                        en.clearBullet(index)
-                        b.targetElement.style.backgroundImage ="url('/assets/images/bomb.png')"
-                        setTimeout(() => {
-                            b.targetElement.style.display = "none"
-                        },1000)
-                      
-                    }
-                }))
+                    }))
+                   
+                }
                
-            }
-           
-        },800)
-       
+            },800)
+        }
     }
     const enemyBulletTimer =  setInterval(()=>{
         
@@ -274,6 +281,8 @@ const init = () => {
                 enemies.map((en,index) => {
                     if( (en.xPos + 5 <= bullet.x && bullet.x <= en.xPos + enemyWidth) 
                         && (bullet.y + 10 <=  en.yPos + enemyHeight && bullet.y >= en.yPos)){
+                        
+                            
                         if(!isSoundOff){
                         playerMissileExplosionSound.play()
                         }
@@ -287,8 +296,15 @@ const init = () => {
                             enemiesNumbers -= 1
                             enemies.splice(index,1)
                             player.clearBullet(bullet, bulletIndex)
-                           
                             score += 20
+                            if(enemies.length === 0 &&  player.health > 0){
+                                modalContainer.innerHTML = ""
+                                const modalWinner = new Modal('Congratulations', 'Winner', '#3FB379', modalContainer, 
+                                score, player.health, player.missileNumbers, 'Try Again!',"winner-card-btn","winner-card")
+                                modalWinner.createModal()
+                                modalContainer.style.display = "block"
+                                backDropModal.style.display = "block"
+                            } 
                         }
                         score += 10
                         scoreDisplay.innerText = score
@@ -316,10 +332,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                    }
+                    
                 } 
                 player.movesUpLeft()
             }
@@ -333,10 +358,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                    }
+                   
                 } 
                 player.movesUpRight()
             }
@@ -350,10 +384,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                    }
+                  
                 } 
                 player.movesDownLeft()
             }
@@ -367,10 +410,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                    }
+                   
                 } 
                 player.movesDownRight()
             }
@@ -384,10 +436,18 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
+                    }else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                   
                 } 
                 player.movesUp()
             }
@@ -401,10 +461,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                    }
+                  
                 } 
                 player.movesDown()
             }
@@ -418,10 +487,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                   }
+                    
                 } 
                 player.movesLeft()
             }
@@ -435,10 +513,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                         },800)
                     }
-                    setInterval(() => {
-                       checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                    }
+                  
                 } 
                 player.movesRight()
             }
@@ -451,10 +538,19 @@ const init = () => {
                         }
                         player.missileNumbers -= 2
                         bombNumbersDisplay.innerText = player.missileNumbers
+                        setInterval(() => {
+                            checkBulletSucceed()
+                        },800)
                     }
-                    setInterval(() => {
-                        checkBulletSucceed()
-                    },800)
+                    else if(player.missileNumbers === 0 && enemies.length > 0){
+                        modalContainer.innerHTML = ""
+                        const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+                        score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+                        modalLooser.createModal()
+                        modalContainer.style.display = "block"
+                        backDropModal.style.display = "block"
+                   }
+                 
             }
        }
     });
