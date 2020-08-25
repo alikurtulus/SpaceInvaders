@@ -6,6 +6,7 @@
 body{
     background-color: #0f0f18;
     font-family: 'Space Mono', monospace;
+    overflow: hidden;
 }
 .container{
     display: flex;
@@ -112,4 +113,7 @@ body{
     position: relative;
     top:3.3em;
     right: 4.2em;
+}
+#sound-container{
+    display: flex;
 }

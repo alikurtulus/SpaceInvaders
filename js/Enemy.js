@@ -1,11 +1,12 @@
 class Enemy{
-    constructor(xPos, yPos, health, selectedEnemy, gameBoard){
+    constructor(xPos, yPos, health, selectedEnemy, gameBoard, eId){
         this.xPos = xPos
         this.yPos = yPos
         this.selectedEnemy = selectedEnemy
         this.health = health
         this.bulletPos = []
         this.gameBoard = gameBoard
+        this.eId = eId
     }
      // When Enemy moves left
      movesLeft(){
@@ -57,10 +58,13 @@ class Enemy{
         })
 
     }
-    wounded(){
-        this.health -= 50
-        this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
+    wounded(index){
+    
+            this.health -= 50
+            this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
     }
+      
+
     clearEnemy(){
         this.selectedEnemy.style.display = "none"
 
