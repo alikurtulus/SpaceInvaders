@@ -8,7 +8,7 @@ class SpaceShip{
         this.bulletPos = []
         this.playerWidth = 124
         this.playerHeight = 124
-        this.missileNumbers = 100
+        this.missileNumbers = 120
     }
     // When Spaceship moves left
     movesLeft(){
