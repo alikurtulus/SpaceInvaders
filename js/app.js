@@ -23,97 +23,79 @@ let enemyWidth = 64
 let enemyHeight = 64
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false}
 let score = 0
-let enemiesNumbers = 16
+let enemiesNumbers = 15
 let temporaryEnemies = []
-let deletedEnemiesIndex = []
-let allEnemies = []
 let injuredNumbers = 0
 let woundPercent = 0
 let soundContent
 let soundImgIcon
 let isSoundOff = false
-const modalWinner = new Modal('Congratulations', 'Winner', '#3FB379', modalContainer, score, player.health, player.missileNumbers, 'Try Again!',"winner-card-btn","winner-card")
-const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
-const modalPause = new Modal('Space Invaders', 'Killer', '#3FB379', modalContainer, score, player.health, player.missileNumbers, 'Continue', 'pause-card-btn', 'pause-card')
+const modalWinner = new Modal('Congratulations', 'Winner', '#3FB379', modalContainer, 
+      score, player.health, player.missileNumbers, 'Try Again!',"winner-card-btn","winner-card")
+const modalLooser = new Modal('Game Over', 'Looser', '#9D1627', modalContainer, 
+      score, player.health, player.missileNumbers, 'Try Again!','looser-card-btn','looser-card')
+const modalPause = new Modal('Space Invaders', 'Killer', '#3FB379', modalContainer,
+      score, player.health, player.missileNumbers, 'Continue', 'pause-card-btn', 'pause-card')
 let instructionSliderIndex = 0
 healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
 
+// Slider for changing the content of instructions.
 const createSlider = (mainModal) => {
     sliderButtonsContainer = document.createElement('div')
-    sliderButtonsContainer.style.display = "flex"
-    sliderButtonsContainer.style.justifyContent = "center"
-    sliderButtonsContainer.style.alignItems = "center"
+    sliderButtonsContainer.style.cssText = "display:flex;justify-content:center;align-items:center;"
     leftBtn = document.createElement('div')
     rightBtn = document.createElement('div')
     leftBtn.className = "slider-btn"
-    leftBtn.style.backgroundImage ="url('/assets/images/previous.png')"
-    leftBtn.style.backgroundSize = "cover"
-    rightBtn.className = "slider-btn"
-    rightBtn.style.backgroundImage = "url('/assets/images/next.png')"
-    rightBtn.style.backgroundSize = "cover"
+    leftBtn.style.cssText = "background-image:url('/assets/images/previous.png'); background-image:cover; background-size:cover;width: 32px; height: 32px;cursor:pointer;"
+    rightBtn.style.cssText ="background-image:url('/assets/images/next.png'); background-image:cover; background-size:cover; width: 32px; height: 32px;cursor:pointer;"
     sliderButtonsContainer.appendChild(leftBtn)
     sliderButtonsContainer.appendChild(rightBtn)
-
-  
     mainModal.appendChild(sliderButtonsContainer)
 
 }
-
-
+// When The page load this modal will appear.
 const createMainModal = () => {
     const mainContainer = document.createElement('div')
     mainContainer.style.padding = "10px"
     const header = document.createElement('div')
-    header.style.width = "100%"
-    header.style.padding = "1em"
-    header.style.cssText="width:100%;padding:1em;color:white;position:relative;top:0;text-align:center;margin-bottom:1em;left:0;"
+    header.style.cssText="width:100%;padding:1em;color:white;position:relative;top:0;text-align:center;margin-bottom:1em;left:0;background-color:#0f4c75;"
     const title = document.createElement('h2')
     title.innerText = "Space Invaders"
-    header.style.backgroundColor = "#0f4c75"
     header.appendChild(title)
     mainContainer.appendChild(header)
 
     const instructionContainer = document.createElement('div')
     const instructionHeader = document.createElement('div')
-    
-    instructionHeader.style.textAlign = "center"
-    instructionHeader.style.color = "red"
-    instructionHeader.style.margin = "0.8em auto"
+    instructionHeader.style.cssText = "text-align:center;color:red;margin:0.8em auto;"
     const instructionTitle = document.createElement('h2')
     instructionTitle.innerText = "Instructions"
     instructionHeader.appendChild(instructionTitle)
     instructionContainer.appendChild(instructionHeader)
     const instructionContent = document.createElement('p')
-    instructionContent.style.textAlign = "justify"
-    instructionContent.style.margin = "1em auto"
-    instructionContent.style.height = "150px"
+    instructionContent.style.cssText = "text-align:justify;margin:1em auto;height:150px;"
     instructionContent.innerText = instructions[instructionSliderIndex]
     instructionContainer.appendChild(instructionContent)
     mainContainer.appendChild(instructionContainer)
     createSlider(instructionContainer)
+
     const controlsContainer = document.createElement('div')
     const headerControls  = document.createElement('div')
     const controlsContentContainer = document.createElement('div')
-    headerControls.style.color = "red"
-    headerControls.style.width = "100%"
-    headerControls.style.textAlign = "center"
+    controlsContainer.style.marginTop = "2.2em"
+    headerControls.style.cssText ="color:red;width:100%;text-align:center;margin:1em;"
     const titleControls = document.createElement('h2')
     titleControls.innerText = "Controls"
     headerControls.appendChild(titleControls)
     controlsContainer.appendChild(headerControls)
-    
-    controlsContentContainer.style.display = "flex"
+    controlsContentContainer.style.cssText = "display:flex;"
     const spaceBarContainer = document.createElement('div')
     const titleSpaceBarContainer = document.createElement('h3')
+
     const spaceBarImg = document.createElement('img')
-    titleSpaceBarContainer.style.textAlign ="center"
+    titleSpaceBarContainer.style.cssText = "text-align:center;color:red;"
     titleSpaceBarContainer.innerText = "Hit"
-    titleSpaceBarContainer.style.color = "red"
     spaceBarImg.setAttribute('src','/assets/images/spacebar.png')
-    spaceBarImg.style.width = "148px"
-    spaceBarImg.style.height = "120px"
-    spaceBarImg.style.position = "relative"
-    spaceBarImg.style.top = "1.6em"
+    spaceBarImg.style.cssText = "width:148px;height:120px;position:relative;top:1.6em;"
     spaceBarContainer.appendChild(titleSpaceBarContainer)
     spaceBarContainer.appendChild(spaceBarImg)
     controlsContentContainer.appendChild(spaceBarContainer)
@@ -122,25 +104,18 @@ const createMainModal = () => {
     const titleArrowKeyContainer = document.createElement('h3')
     const arrowKeyImg = document.createElement('img')
     titleArrowKeyContainer.innerText = "Move"
-    titleArrowKeyContainer.style.textAlign ="center"
-    titleArrowKeyContainer.style.color = "red"
+    titleArrowKeyContainer.style.cssText = "text-align:center;color:red;"
     arrowKeyImg.setAttribute('src','/assets/images/arrow-keys.png')
-    arrowKeyImg.style.width = "128px"
-    arrowKeyImg.style.height = "128px"
+    arrowKeyImg.style.cssText = "width:128px;height:128px;"
     arrowKeysContainer.appendChild(titleArrowKeyContainer)
     arrowKeysContainer.appendChild(arrowKeyImg)
     controlsContentContainer.appendChild(arrowKeysContainer)
     controlsContainer.appendChild(controlsContentContainer)
     mainContainer.appendChild(controlsContainer)
 
-    
     btnStart.innerText = "Start!"
-    btnStart.style.width = "60px"
-    btnStart.style.height = "30px"
-    btnStart.style.backgroundColor = "#0f4c75"
-    btnStart.style.color = "white"
-    btnStart.style.margin = "1em auto"
-
+    btnStart.style.cssText ="width:80px;height:40px;background-color:#0f4c75;color:white;margin:1em;position:relative;left:9vw;font-size:1.2em;cursor:pointer;"
+   
     mainContainer.appendChild(btnStart)
     modalContainer.appendChild(mainContainer)
     modalContainer.style.display = "block"
@@ -176,22 +151,20 @@ btnStart.addEventListener('click', (e) => {
     init()
    
 })
+// Controls sound on - off
 const createSoundContainer = () => {
     soundImgIcon = document.createElement('img')
     soundContent = document.createElement('div')
     soundImgIcon.setAttribute('src','/assets/images/sound-on.png')
     soundImgIcon.className="icon"
     soundContent.innerText="Sound on"
-    soundContent.style.position = "relative"
-    soundContent.style.top = "15px"
-    soundContent.style.right = "18px"
+    soundContent.style.cssText = "position:relative;top:15px;right:18px;"
     soundContainer.appendChild(soundImgIcon)
     soundContainer.appendChild(soundContent)
 }
 createSoundContainer()
 const init = () => {
    
-
     const createEnemies = () => {
     
        let xPos = 140
@@ -202,11 +175,12 @@ const init = () => {
        for(let j = 0; j < 2; j++){
     
             enemyContainer = document.createElement('div')
+            
             middleEnemyContainer = document.createElement('div')
             for( let i = 0; i< enemiesNumbers; i++){
                 const enemyDiv = document.createElement('div')
                 enemyDiv.id = i+"enemy"
-                let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard)
+                let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard, i)
                 enemies.push(enemy)
                 temporaryEnemies.push(enemy)
                 enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
@@ -224,12 +198,6 @@ const init = () => {
        }
       
     }
-    const createEnemiesArr = () => {
-        for(let i = 0; i < 30; i++){
-            allEnemies.push(i)
-        }
-    }
-    createEnemiesArr()
     createEnemies()
     const enemiesMovement = () => {
         const randomMovement = Math.floor(Math.random() * 3);
@@ -246,8 +214,11 @@ const init = () => {
     }
 
     const chooseAvailableEnemy = () => {
-       
-        allEnemies = allEnemies.filter( x => !deletedEnemiesIndex.includes(x))
+        let allEnemies = []
+        for(let i = 0; i < enemies.length; i++){
+            allEnemies.push(enemies[i].eId)
+        }
+        console.log(allEnemies)
         return allEnemies[Math.floor(Math.random() * allEnemies.length)]
     }
     
@@ -259,8 +230,7 @@ const init = () => {
         const enemyBulletMovementTimer = setInterval(() => {
             temporaryEnemies[selectedEnemyIndex].fireBullet()
             if(temporaryEnemies[selectedEnemyIndex]){
-                enemies.map(en => en.bulletPos.map((b,index) => {
-                    console.log(b.x, b.y, player.xPos, player.yPos)
+                temporaryEnemies.map(en => en.bulletPos.map((b,index) => {
                     if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth)
                         && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
                         if(!isSoundOff){
@@ -287,6 +257,7 @@ const init = () => {
        
     }
     const enemyBulletTimer =  setInterval(()=>{
+        
         createEnemyFire()
         if(!isSoundOff){
             //playerMissileSound.play()
@@ -295,17 +266,19 @@ const init = () => {
     const enemyInterval = setInterval(()=>{
         enemiesMovement()
     },1000)
+    
+    // When Spaceship hits the alien 
     const checkBulletSucceed = () => {
         let spaceShipsBullets =  player.fireBullet()
             spaceShipsBullets.map((bullet,bulletIndex) => {
                 enemies.map((en,index) => {
-                    if( (en.xPos <= bullet.x && bullet.x <= en.xPos + enemyWidth) 
+                    if( (en.xPos + 5 <= bullet.x && bullet.x <= en.xPos + enemyWidth) 
                         && (bullet.y + 10 <=  en.yPos + enemyHeight && bullet.y >= en.yPos)){
                         if(!isSoundOff){
                         playerMissileExplosionSound.play()
                         }
                         if(en.health > 0){
-                            en.wounded()
+                            en.wounded(index)
                             player.clearBullet(bullet,bulletIndex)
                         }
                         else{
@@ -314,7 +287,7 @@ const init = () => {
                             enemiesNumbers -= 1
                             enemies.splice(index,1)
                             player.clearBullet(bullet, bulletIndex)
-                            deletedEnemiesIndex.push(index)
+                           
                             score += 20
                         }
                         score += 10
@@ -325,13 +298,15 @@ const init = () => {
             })
     }
     
+    // Check all keys's value from the user
     document.body.addEventListener('keydown', (e) => {
        
         e = e || window.event;
        if (e.keyCode in keysPressed){
               
            keysPressed[e.keyCode] = true;
-    
+            
+           //When user press the left arrow key and up arrow key 
             if( keysPressed[38] && keysPressed[37]){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -348,6 +323,7 @@ const init = () => {
                 } 
                 player.movesUpLeft()
             }
+            //When user press the right arrow key and up arrow key 
             else if( keysPressed[38] && keysPressed[39] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -364,6 +340,7 @@ const init = () => {
                 } 
                 player.movesUpRight()
             }
+            //When user press the left arrow key and down arrow key 
             else if( keysPressed[40] && keysPressed[37] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -380,6 +357,7 @@ const init = () => {
                 } 
                 player.movesDownLeft()
             }
+            //When user press the right arrow key and down arrow key 
             else if( keysPressed[40] && keysPressed[39] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -396,6 +374,7 @@ const init = () => {
                 } 
                 player.movesDownRight()
             }
+            //When user press up arrow key 
             else if( keysPressed[38] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -412,6 +391,7 @@ const init = () => {
                 } 
                 player.movesUp()
             }
+            //When user press down arrow key 
             else if( keysPressed[40] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -428,6 +408,7 @@ const init = () => {
                 } 
                 player.movesDown()
             }
+            //When user press left  arrow key 
             else if( keysPressed[37] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -444,6 +425,7 @@ const init = () => {
                 } 
                 player.movesLeft()
             }
+            //When user press right arrow key 
             else if( keysPressed[39] ){
                 if( keysPressed[32] ){
                     if(player.missileNumbers > 0){
@@ -460,6 +442,7 @@ const init = () => {
                 } 
                 player.movesRight()
             }
+           //When user press  the space-bar key
             else if (keysPressed[32] ){
                     if(player.missileNumbers > 0){
                         player.createBullet()
@@ -475,10 +458,11 @@ const init = () => {
             }
        }
     });
+    // Clean all used keys from the keysPressed
     document.body.addEventListener('keyup', (e) => {
          keysPressed[e.keyCode] = false;
      });
-   
+    // When we turn sound on or off 
     soundImgIcon.addEventListener('click', () => {
         isSoundOff = !isSoundOff
     

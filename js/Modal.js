@@ -65,10 +65,7 @@ class Modal{
         modalTotalScore.innerText = totalScore
         modalTotalScore.style.borderTop = "2px solid red"
         modalTotalScore.style.borderBottom = "2px solid red"
-
-        modalBtn.style.margin = "auto"
-        modalBtn.style.width = "120px"
-        modalBtn.style.height = "40px"
+        modalBtn.style.cssText = "margin:auto;width:120px;height:40px;"
         modalBtn.style.backgroundColor = this.color
         modalBtn.innerText = this.btnContext
         modalBtn.id = this.btnId

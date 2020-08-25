@@ -91,28 +91,28 @@ class SpaceShip{
     // When Spaceship moves up-right
     movesUpRight(){
 
-        if( this.yPos > 5 && this.xPos < 1285  ){
+        if( this.yPos > 5 && this.xPos < 1300  ){
             this.yPos -= 5
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos += 5
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
-        else if( this.yPos > 5 && this.xPos > 1285 ){
+        else if( this.yPos > 5 && this.xPos > 1300){
             this.yPos -= 5
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos = 1285
+            this.xPos = 1290
             this.selectedPlayer.style.left = this.xPos + "px"  
         }
-        else if( this.yPos < 5 && this.xPos < 1285 ){
+        else if( this.yPos < 5 && this.xPos < 1300 ){
             this.yPos = 5
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos += 5
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
-        else if( this.yPos < 5 && this.xPos > 1285 ){
+        else if( this.yPos < 5 && this.xPos > 1300 ){
             this.yPos = 5
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos = 1285
+            this.xPos = 1300
             this.selectedPlayer.style.left = this.xPos + "px"  
           }
     }
@@ -146,29 +146,29 @@ class SpaceShip{
     }
     // When Spaceship moves down-right
     movesDownRight(){
-        if( this.yPos < 720 &&  this.xPos < 1285  ){
+        if( this.yPos < 720 &&  this.xPos < 1300  ){
             this.yPos += 5
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos += 5
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
-        else if( this.yPos < 720 &&  this.xPos > 1285 ){
-            this.xPos = 1285
+        else if( this.yPos < 720 &&  this.xPos > 1300 ){
+            this.xPos = 1300
             this.selectedPlayer.style.left = this.xPos + "px"
             this.yPos += 5
             this.selectedPlayer.style.top = this.yPos + "px"
             
         }
-        else if( this.yPos > 720 &&  this.xPos < 1285 ){
+        else if( this.yPos > 720 &&  this.xPos < 1300 ){
             this.xPos += 5
             this.selectedPlayer.style.left = this.xPos + "px"
             this.yPos = 720
             this.selectedPlayer.style.top = this.yPos + "px"
         }
-        else if( this.yPos > 720 && this.xPos > 1285 ){
+        else if( this.yPos > 720 && this.xPos > 1300 ){
             this.yPos = 720
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos = 1285
+            this.xPos = 1300
             this.selectedPlayer.style.left = this.xPos + "px"  
         }
     }
@@ -191,15 +191,11 @@ class SpaceShip{
     //When Spaceship fire its gun.
     fireBullet(){
         this.bulletPos.map(bul => {
-            
             bul.moveUp()
-           
         })
        return this.bulletPos
     }
     clearBullet(bullet, index){
-        console.log(bullet)
-        console.log(this.bulletPos.length)
         this.bulletPos.splice(index, 1)
         bullet.targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
         setTimeout(() => {
