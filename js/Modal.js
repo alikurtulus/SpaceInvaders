@@ -1,5 +1,5 @@
 class Modal{
-    constructor(title, result, color, mainTarget, score, health, bombNumbers, btnContext){
+    constructor(title, result, color, mainTarget, score, health, bombNumbers, btnContext, btnId, modalId){
         this.title = title
         this.result = result
         this.color = color
@@ -8,11 +8,13 @@ class Modal{
         this.health = health
         this.bombNumbers = bombNumbers
         this.btnContext = btnContext
+        this.btnId = btnId
+        this.modalId = modalId
         
     }
     createModal(){
         const mainContainer = document.createElement('div')
-
+        mainContainer.id = this.modalId
         const titleContainer = document.createElement('div')
         titleContainer.style.textAlign = "center"
         const modalTitle = document.createElement('h2')
@@ -37,7 +39,7 @@ class Modal{
         healthIcon.className = "heart-icon"
         healthItem.appendChild(healthIcon)
         const healthScore = document.createElement('p')
-        healthScore.innerText = "Health: " + this.health
+        healthScore.innerText = "Health: " + this.health + "X" + 5
         healthItem.appendChild(healthScore)
         listContainer.appendChild(healthItem)
 
@@ -46,7 +48,7 @@ class Modal{
         scoreIcon.setAttribute('src','/assets/images/explosion.png')
         scoreIcon.className = "icon"
         const scoreDisplay = document.createElement('p')
-        scoreDisplay.innerText = "Score: " + this.score
+        scoreDisplay.innerText = "Score: " + this.score + "X" + 5
         scoreItem.appendChild(scoreIcon)
         scoreItem.appendChild(scoreDisplay)
         listContainer.appendChild(scoreItem)
@@ -55,16 +57,28 @@ class Modal{
         const missileIcon  = document.createElement('img')
         const missileScore = document.createElement('p')
         const modalBtn= document.createElement('button')
+        const modalTotalScore = document.createElement('div')
         missileIcon.setAttribute('src','/assets/images/explosion.png')
         missileIcon.className = "icon"
-        missileScore.innerText = "Bombs: " + this.bombNumbers
+        missileScore.innerText = "Bombs: " + this.bombNumbers + "X" + 5
+        let totalScore = this.score * 5 + this.health * 5 + this.bombNumbers * 5
+        modalTotalScore.innerText = totalScore
+        modalTotalScore.style.borderTop = "2px solid red"
+        modalTotalScore.style.borderBottom = "2px solid red"
+
         modalBtn.style.margin = "auto"
+        modalBtn.style.width = "120px"
+        modalBtn.style.height = "40px"
+        modalBtn.style.backgroundColor = this.color
         modalBtn.innerText = this.btnContext
+        modalBtn.id = this.btnId
         missileItem.appendChild(missileIcon)
         missileItem.appendChild(scoreDisplay)
         listContainer.appendChild(missileItem)
         contentContainer.appendChild(listContainer)
+        contentContainer.appendChild(modalTotalScore)
         contentContainer.appendChild(modalBtn)
+        mainContainer.appendChild(contentContainer)
         
     }
 
