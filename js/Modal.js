@@ -11,6 +11,7 @@ class Modal{
         this.btnId = btnId
         this.modalId = modalId
         
+        
     }
     createModal(){
         const mainContainer = document.createElement('div')
@@ -70,10 +71,12 @@ class Modal{
         let totalScore = this.score * 5 + this.health * 5 + this.bombNumbers * 5
         modalTotalScore.style.cssText = "text-align:center;font-size:1.3em;border-bottom:2px solid red;border-top:2px solid red;"
         modalTotalScore.innerText = "Total Score: " +totalScore
-        modalBtn.style.cssText = "margin:1.4em auto;width:120px;height:40px;color:white;text-align:center;position:relative;left:8.3vw;"
+        modalBtn.style.cssText = "margin:1.4em auto;width:120px;height:40px;color:white;text-align:center;position:relative;left:8.3vw;cursor:pointer;"
         modalBtn.style.backgroundColor = this.color
         modalBtn.innerText = this.btnContext
         modalBtn.id = this.btnId
+        modalBtn.className = "modal-btn"
+        
         listContainer.appendChild(missileItem)
         contentContainer.appendChild(listContainer)
         contentContainer.appendChild(modalTotalScore)
@@ -81,13 +84,16 @@ class Modal{
         mainContainer.appendChild(contentContainer)
         this.mainTarget.appendChild(mainContainer)
         this.mainTarget.display = "block"
+
+       return  modalBtn
         
     }
     closeModal(){
-        this.mainTarget.display = "none"
-    }
-    clearModal(){
         this.mainTarget.innerHTML = ""
+        this.mainTarget.display = "none"
+    
     }
+    
+    
 
 }

@@ -43,13 +43,7 @@ body{
     background-size: cover;
     overflow: hidden;
 }
-#space-ship{
-    width: 124px;
-    height: 124px;
-    position: absolute;
-    top:680px;
-    left:48%;
-}
+
 @keyframes scroll-background {
     from {
         background-position-y: 0px;
@@ -86,9 +80,9 @@ body{
     
 }
 #health-bar{
+    background-color:#00FF00;
     display: flex;
     width: 170px;
-    border-radius: 8px;
     height: 28px;
     position: relative;
     left: 1.3em;

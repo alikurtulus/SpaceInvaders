@@ -59,12 +59,9 @@ class Enemy{
 
     }
     wounded(index){
-    
-            this.health -= 50
-            this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
+        this.health -= 50
+        this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
     }
-      
-
     clearEnemy(){
         this.selectedEnemy.style.display = "none"
 
@@ -72,5 +69,10 @@ class Enemy{
     clearBullet(index){
        this.bulletPos.splice(index, 1)
        
+    }
+    stopBullets(){
+        this.bulletPos.map(bul => {
+            bul.moveNot()
+        })
     }
 }
