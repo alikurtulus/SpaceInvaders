@@ -172,6 +172,7 @@ let soundImgIcon = null
 let isSoundOff = false
 let modalBtn =  null
 
+
 const createSoundContainer = () => {
     soundImgIcon = document.createElement('img')
     soundContent = document.createElement('div')
@@ -182,27 +183,50 @@ const createSoundContainer = () => {
     soundContainer.appendChild(soundImgIcon)
     soundContainer.appendChild(soundContent)
 }
-createSoundContainer()
+const createTenPlus = () => {
+    const mainDiv = document.createElement('div')
+    mainDiv.style.cssText = "width:64px;height:64px;background-color:#ffa931;font-size:0.6em;"
+    mainDiv.innerText = "+10"
+    mainDiv
+    return mainDiv
+}
 
+
+createSoundContainer()
     const createEnemies = () => {
-    
+       let giftsName = ["health","shield","ten-plus","super-bomb"]
        let xPos = 140
        let yPos = 50
        let health = 100
        let enemyContainer
        let middleEnemyContainer
-       for(let j = 0; j < 2; j++){
+       for(let j = 0; j < 3; j++){
     
             enemyContainer = document.createElement('div')
             
             middleEnemyContainer = document.createElement('div')
             for( let i = 0; i< enemiesNumbers; i++){
+                let enemy 
+                let randomSuperAlien = Math.floor(Math.random() * 10)
                 const enemyDiv = document.createElement('div')
-                enemyDiv.id = i+"enemy"
-                let enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard, i)
-                enemies.push(enemy)
-                temporaryEnemies.push(enemy)
-                enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
+                enemyDiv.id = i+"enemy"    
+              
+                if(randomSuperAlien > 2){
+                    enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard, i)
+                    enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
+                    enemyDiv.className = "normal"
+                    enemies.push(enemy)
+                    temporaryEnemies.push(enemy)
+                }
+                else{
+                    let randomGift = Math.floor(Math.random() * giftsName.length)
+                    enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/ufo.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
+                    let extraHealth = health + 50
+                    enemy = new Enemy(xPos, yPos, extraHealth, enemyDiv, gameBoard, i)
+                    enemyDiv.className = giftsName[randomGift]
+                    enemies.push(enemy)
+                    temporaryEnemies.push(enemy)
+                }
                 enemyContainer.style.cssText="display:flex;width:100%;"
                 enemyContainer.classList.add('enemy-container')
                 middleEnemyContainer.style.cssText="display:flex;"
