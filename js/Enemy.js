@@ -74,43 +74,45 @@ class Enemy{
      
     }
     clearEnemy(){
-        "health","shield","ten-plus","super-bomb"
-        if(this.selectedEnemy.className === 'normal'){
+        if(this.className === 'normal'){
             this.selectedEnemy.style.display = "none"
         }
         else{
             this.opacity = 1
             this.selectedEnemy.style.opacity = this.opacity
-            if(this.selectedEnemy.className === "shield"){
-                this.selectedEnemy.style.width = "36px"
-                this.selectedEnemy.style.height  ="36px"
+            if(this.className === "shield"){
                 this.selectedEnemy.style.backgroundImage = "url('/assets/images/shield.png')"
+                this.selectedEnemy.style.backgroundSize = " 50% 50%"
+                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
+                this.selectedEnemy.style.backgroundPosition = "center"
             }
-            else if(this.selectedEnemy.className === "health"){
+            else if(this.className === "health"){
                 this.selectedEnemy.style.backgroundImage = "url('/assets/images/health.png')"
-                this.selectedEnemy.style.width = "36px"
-                this.selectedEnemy.style.height  ="36px"
+                this.selectedEnemy.style.backgroundSize = " 50% 50%"
+                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
+                this.selectedEnemy.style.backgroundPosition = "center"
             }
-            else if(this.selectedEnemy.className === "super-bomb"){
-                this.selectedEnemy.style.width = "36px"
-                this.selectedEnemy.style.height  ="36px"
+            else if(this.className === "super-bomb"){
+               
                 this.selectedEnemy.style.backgroundImage = "url('/assets/images/super-bomb.png')"
+                this.selectedEnemy.style.backgroundSize = " 50% 50%"
+                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
+                this.selectedEnemy.style.backgroundPosition = "center"
             }
-            else if(this.selectedEnemy.className === "ten-plus"){
+            else if(this.className === "ten-plus"){
                 this.selectedEnemy.style.background = "none"
+               
                 this.selectedEnemy.style.color = "#ffa931"
                 this.selectedEnemy.innerText = "+10"
-                this.selectedEnemy.style.width = "36px"
-                this.selectedEnemy.style.height  ="36px"
+                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
                 this.selectedEnemy.style.fontSize = "1.4em"
               
             }
             setInterval( () => {
-                console.log('ad') 
-                this.yPos += 10
-                this.selectedEnemy.style.top += this.yPos + "px" 
-
-            }, 800);
+                
+                this.yPos += 5
+                this.selectedEnemy.style.top = this.yPos + "px"
+            }, 1000);
         }
       
 

@@ -200,7 +200,7 @@ class SpaceShip{
         bullet.targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
         setTimeout(() => {
             bullet.targetElement.style.display="none"
-        },200)
+        },100)
       
        
     }

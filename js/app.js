@@ -70,7 +70,7 @@ const createMainModal = () => {
     spaceBarContainer.appendChild(titleSpaceBarContainer)
     spaceBarContainer.appendChild(spaceBarImg)
     controlsContentContainer.appendChild(spaceBarContainer)
-
+    
     const arrowKeysContainer = document.createElement('div')
     const titleArrowKeyContainer = document.createElement('h3')
     const arrowKeyImg = document.createElement('img')
@@ -125,6 +125,7 @@ btnStart.addEventListener('click', (e) => {
 // Controls sound on - off
 
 const init = () => {
+const giftsArr = []
 let leftUpTimer = null
 let rightUpTimer = null
 let leftDownTimer = null
@@ -163,8 +164,7 @@ let enemyWidth = 64
 let enemyHeight = 64
 let keysPressed = {32:false, 37:false, 38:false, 39:false, 40:false, 27:false}
 let score = 0
-let enemiesNumbers = 15
-let temporaryEnemies = []
+let enemiesNumbers = 45
 let injuredNumbers = 0
 let woundPercent = 0
 let soundContent = null
@@ -183,13 +183,6 @@ const createSoundContainer = () => {
     soundContainer.appendChild(soundImgIcon)
     soundContainer.appendChild(soundContent)
 }
-const createTenPlus = () => {
-    const mainDiv = document.createElement('div')
-    mainDiv.style.cssText = "width:64px;height:64px;background-color:#ffa931;font-size:0.6em;"
-    mainDiv.innerText = "+10"
-    mainDiv
-    return mainDiv
-}
 
 
 createSoundContainer()
@@ -205,27 +198,27 @@ createSoundContainer()
             enemyContainer = document.createElement('div')
             
             middleEnemyContainer = document.createElement('div')
-            for( let i = 0; i< enemiesNumbers; i++){
-                let enemy 
+            for( let i = 0; i< 15; i++){
+                let myEnemy 
                 let randomSuperAlien = Math.floor(Math.random() * 10)
                 const enemyDiv = document.createElement('div')
                 enemyDiv.id = i+"enemy"    
               
                 if(randomSuperAlien > 2){
-                    enemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard, i)
+                    myEnemy = new Enemy(xPos, yPos, health, enemyDiv, gameBoard, i, 'normal')
                     enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/enemy.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
                     enemyDiv.className = "normal"
-                    enemies.push(enemy)
-                    temporaryEnemies.push(enemy)
+                    enemies.push({enemy:myEnemy, isAlive:"alive"})
+                   
                 }
                 else{
                     let randomGift = Math.floor(Math.random() * giftsName.length)
                     enemyDiv.style.cssText=`width:64px;height:64px;background-image:url('/assets/images/ufo.png');background-size:cover;`+"left:"+xPos+"px;position:absolute;top:"+yPos+"px;"
                     let extraHealth = health + 50
-                    enemy = new Enemy(xPos, yPos, extraHealth, enemyDiv, gameBoard, i)
                     enemyDiv.className = giftsName[randomGift]
-                    enemies.push(enemy)
-                    temporaryEnemies.push(enemy)
+                    myEnemy = new Enemy(xPos, yPos, extraHealth, enemyDiv, gameBoard, i, giftsName[randomGift])
+                    enemies.push({enemy:myEnemy, isAlive:"alive"})
+                    
                 }
                 enemyContainer.style.cssText="display:flex;width:100%;"
                 enemyContainer.classList.add('enemy-container')
@@ -245,36 +238,40 @@ createSoundContainer()
     const enemiesMovement = () => {
         const randomMovement = Math.floor(Math.random() * 3);
         if( randomMovement === 0){
-            enemies.map(en => en.movesLeft())
+            enemies.map(en =>  { 
+                if(en.isAlive === "alive"){
+                    en.enemy.movesLeft()
+                }}
+            )
         }
         else if(randomMovement === 1){
-            enemies.map(en => en.movesRight())
+            enemies.map(en => {
+                if(en.isAlive === "alive"){
+                    en.enemy.movesRight()}
+                }
+            )
         }
         else{
-            enemies.map(en => en.movesDown())
+            enemies.map(en => {
+                if(en.isAlive === "alive"){
+                    en.enemy.movesDown()
+                }
+            } )
         }
       
     }
-
-    const chooseAvailableEnemy = () => {
-        let allEnemies = []
-        for(let i = 0; i < enemies.length; i++){
-            allEnemies.push(enemies[i].eId)
-        }
-        console.log(allEnemies)
-        return allEnemies[Math.floor(Math.random() * allEnemies.length)]
-    }
-    
+   
     const createEnemyFire = () => { 
-        if(chooseAvailableEnemy() >= 0) {
+        let aliveEnemies 
+        aliveEnemies = enemies.filter(en => en.isAlive === "alive")
+        if(aliveEnemies.length > 0) {
             if(!isPaused){
-                let selectedEnemyIndex = chooseAvailableEnemy()
-                temporaryEnemies[selectedEnemyIndex].createBullet(temporaryEnemies[selectedEnemyIndex].xPos, temporaryEnemies[selectedEnemyIndex].yPos)
+                let selectedEnemyIndex = Math.floor(Math.random() * aliveEnemies.length)
+                aliveEnemies[selectedEnemyIndex].enemy.createBullet(aliveEnemies[selectedEnemyIndex].enemy.xPos, aliveEnemies[selectedEnemyIndex].enemy.yPos)
                 enemyBulletMovementTimer = setInterval(() => {
                     if(!isPaused){
-                        temporaryEnemies[selectedEnemyIndex].fireBullet()
-                        if(temporaryEnemies[selectedEnemyIndex]){
-                            temporaryEnemies.map(en => en.bulletPos.map((b,index) => {
+                        aliveEnemies[selectedEnemyIndex].enemy.fireBullet()
+                        aliveEnemies.map(en => en.enemy.bulletPos.map((b,index) => {
                                 if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth)
                                     && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
             
@@ -288,7 +285,7 @@ createSoundContainer()
                                         woundPer.style.width  = woundPercent + "%"
                                         woundPer.style.backgroundColor = "red"
                                         healthPer.style.width = player.health + "%"
-                                        en.clearBullet(index)
+                                        en.enemy.clearBullet(index)
                                         b.targetElement.style.backgroundImage ="url('/assets/images/bomb.png')"
                                         setTimeout(() => {
                                             b.targetElement.style.display = "none"
@@ -320,7 +317,6 @@ createSoundContainer()
                                 }
                             }))
                            
-                        }
                     }
              
                    
@@ -340,10 +336,10 @@ createSoundContainer()
     enemyInterval = setInterval(()=>{
         if(!isPaused){
             isSpaceShipTouchedAliens()
-           enemiesMovement()
+            enemiesMovement()
         }
        
-    },1000)
+    },900)
     
     // When Spaceship hits the alien 
     const checkBulletSucceed = () => {
@@ -352,57 +348,65 @@ createSoundContainer()
             spaceShipsBullets =  player.fireBullet()
             spaceShipsBullets.map((bullet,bulletIndex) => {
                 enemies.map((en,index) => {
-                    if( (en.xPos - 4 <= bullet.x && bullet.x <= en.xPos + enemyWidth) 
-                        && (bullet.y + 10 <=  en.yPos + enemyHeight && bullet.y >= en.yPos)){
+                    if( (en.enemy.xPos - 4 <= bullet.x && bullet.x <= en.enemy.xPos + enemyWidth) 
+                        && (bullet.y + 10 <=  en.enemy.yPos + enemyHeight && bullet.y >= en.enemy.yPos) && en.isAlive === "alive"){
                     
                         if(!isSoundOff){
                         playerMissileExplosionSound.play()
                         }
-                        if(en.health > 0){
-                            en.wounded(index)
-                            player.clearBullet(bullet,bulletIndex)
+                        if(en.enemy.health > 0){
+                            score += 10
+                            en.enemy.wounded(index)
                         }
                         else{
-                            en.clearEnemy()
-                            en.clearBullet(index)
+                            if(en.enemy.className !== "normal"){
+                               en.isAlive = "gift"
+                               giftsArr.push(en.enemy)
+                            }
+                            else{
+                                en.isAlive = "death"
+                            }
+                            en.enemy.clearEnemy()
+                            en.enemy.clearBullet(index)
                             enemiesNumbers -= 1
-                            enemies.splice(index,1)
-                            player.clearBullet(bullet, bulletIndex)
                             score += 20
-                            if(enemies.length === 0 &&  player.health > 0){
-                                modalContainer.innerHTML = ""
-                                const modalWinner = new Modal('Congratulations', 'Winner', '#3FB379', modalContainer, 
-                                score, player.health, player.missileNumbers, 'Try Again!',"winner-card-btn","winner-card")
-                                modalBtn = modalWinner.createModal()
-                                modalContainer.style.display = "block"
-                                backDropModal.style.display = "block"
-                                soundContainer.innerHTML = ""
-                                injuredNumbers = 0
-                                clearAll()
-                                isPaused = true
-                                modalBtn.addEventListener('click' , () => {
-                                    modalContainer.style.display = "none"
-                                    backDropModal.style.display = "none"
-                                    gameBoard.innerHTML = ""
-                                    score = 0
-                                    isPaused = false
-                                    player.health = 100 
-                                    player.missileNumbers = 120
-                                    spaceShip = null
-                                    injuredNumbers = 0
-                                    healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
-                                    init()
-                                })
-                            } 
+                            winner()
                         }
-                        score += 10
                         scoreDisplay.innerText = score
+                        player.clearBullet(bullet, bulletIndex)
                     }
                    
                 })
             })
         }
             
+    }
+    const winner = () => {
+        if(enemies.every(en => en.isAlive !== "alive") &&  player.health > 0){
+            modalContainer.innerHTML = ""
+            const modalWinner = new Modal('Congratulations', 'Winner', '#3FB379', modalContainer, 
+            score, player.health, player.missileNumbers, 'Try Again!',"winner-card-btn","winner-card")
+            modalBtn = modalWinner.createModal()
+            modalContainer.style.display = "block"
+            backDropModal.style.display = "block"
+            soundContainer.innerHTML = ""
+            injuredNumbers = 0
+            clearAll()
+            isPaused = true
+            modalBtn.addEventListener('click' , () => {
+                modalContainer.style.display = "none"
+                backDropModal.style.display = "none"
+                gameBoard.innerHTML = ""
+                score = 0
+                isPaused = false
+                player.health = 100 
+                player.missileNumbers = 120
+                spaceShip = null
+                injuredNumbers = 0
+                healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
+                init()
+            })
+        } 
     }
     const gameOver = () => {
         modalContainer.innerHTML = ""
@@ -447,7 +451,7 @@ createSoundContainer()
                     },400)
                 }
             }
-            else if(player.missileNumbers < 1 && enemies.length > 0){
+            else if(player.missileNumbers < 1 && enemiesNumbers > 0){
                 soundContainer.innerHTML = ""
                 player.health = 100
                 gameOver()
@@ -456,28 +460,55 @@ createSoundContainer()
             
         } 
     }
+    const getGifts = () => {
+        if(giftsArr.length  > 0){
+            giftsArr.map( en => {
+                if((player.yPos  <= en.yPos + enemyHeight ) && (en.xPos <= player.xPos && player.xPos <= en.xPos + enemyWidth)){
+                    if(en.className === "health"){
+                        console.log("health")
+                    }
+                    else if(en.className === "shield"){
+                        console.log("shield")
+                    }
+                    else if(en.className === "ten-plus"){
+                        console.log("ten-plus")
+                    }
+                    else if(en.className === "super-bomb"){
+                        console.log("super-bomb")
+                    }
+                }
+            })
+        }
+        
+    }
+    const giftsTimer = setInterval(() => {
+        getGifts()
+    }, 500);
     const isSpaceShipTouchedAliens = () => {
         enemies.map(en => {
-             if( (player.yPos  <= en.yPos + enemyHeight - 10 ) && (en.xPos <= player.xPos && player.xPos <= en.xPos + enemyWidth)){
-                playerMissileExplosionSound.play()
-                playerMissileExplosionSound.play()
-                player.health = 0
-                spaceShip.style.backgroundImage = "url('/assets/images/explosion.png')"
-                woundPercent += 5 * 20
-                woundPer.style.width  = woundPercent + "%"
-                woundPer.style.backgroundColor = "red"
-                healthPer.style.width = player.health + "%"
-                injuredNumbers = 0
-                clearAll()
-                setTimeout(() => {
-                    player.health = 100
-                    score = 0
-                    player.bombNumbersDisplay = 120
-                    spaceShip.style.display = "none"
-                    soundContainer.innerHTML = ""
-                    healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
-                    gameOver()
-                },1500)
+             if( (player.yPos  <= en.enemy.yPos + enemyHeight  ) && (en.enemy.xPos <= player.xPos && player.xPos <= en.enemy.xPos + enemyWidth)){
+                if(en.isAlive === "alive"){
+                    playerMissileExplosionSound.play()
+                    playerMissileExplosionSound.play()
+                    player.health = 0
+                    spaceShip.style.backgroundImage = "url('/assets/images/explosion.png')"
+                    woundPercent += 5 * 20
+                    woundPer.style.width  = woundPercent + "%"
+                    woundPer.style.backgroundColor = "red"
+                    healthPer.style.width = player.health + "%"
+                    injuredNumbers = 0
+                    clearAll()
+                    setTimeout(() => {
+                        player.health = 100
+                        score = 0
+                        player.bombNumbersDisplay = 120
+                        spaceShip.style.display = "none"
+                        soundContainer.innerHTML = ""
+                        healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
+                        gameOver()
+                    },1500)
+
+                }
                
              } 
         })
@@ -498,6 +529,7 @@ createSoundContainer()
                     checkHitPossibilities(leftUpTimer)
                     isSpaceShipTouchedAliens()
                     player.movesUpLeft()
+                  
                 }
             }
             //When user press the right arrow key and up arrow key 
@@ -506,6 +538,7 @@ createSoundContainer()
                     checkHitPossibilities(rightUpTimer)
                     isSpaceShipTouchedAliens()
                     player.movesUpRight()
+                   
                 }
             }
             //When user press the left arrow key and down arrow key 
@@ -514,6 +547,7 @@ createSoundContainer()
                     checkHitPossibilities(leftDownTimer)
                     isSpaceShipTouchedAliens()
                     player.movesDownLeft()
+                  
                 } 
             }
             //When user press the right arrow key and down arrow key 
@@ -522,6 +556,7 @@ createSoundContainer()
                     checkHitPossibilities(rightDownTimer)
                     isSpaceShipTouchedAliens()
                     player.movesDownRight()
+                    
                 }
             }
             //When user press up arrow key 
@@ -530,6 +565,7 @@ createSoundContainer()
                     checkHitPossibilities(upTimer)
                     isSpaceShipTouchedAliens()
                     player.movesUp()
+                   
                 }
             }
             //When user press down arrow key 
@@ -538,6 +574,7 @@ createSoundContainer()
                     checkHitPossibilities(downTimer)
                     isSpaceShipTouchedAliens()
                     player.movesDown()
+                    
                 }
             }
             //When user press left  arrow key 
@@ -546,6 +583,7 @@ createSoundContainer()
                     checkHitPossibilities(leftTimer)
                     isSpaceShipTouchedAliens()
                     player.movesLeft()
+                    
                 }
             }
             //When user press right arrow key 
@@ -554,12 +592,14 @@ createSoundContainer()
                     checkHitPossibilities(rightTimer)
                     isSpaceShipTouchedAliens()
                     player.movesRight()
+                    
                 }
             }
            //When user press  the space-bar key
             else if (keysPressed[32] ){
                 if(!isPaused){
                     checkHitPossibilities(spaceBarTimer)
+                    isSpaceShipTouchedAliens()
                 }  
             }
             else if( keysPressed[27]){
