@@ -15,4 +15,7 @@ class Bullet {
         this.y += 10
         this.targetElement.style.top = this.y + "px"
     }
+    moveNot(){
+        this.targetElement.style.top = this.y + "px"
+    }
 }

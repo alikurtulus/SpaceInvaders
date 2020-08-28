@@ -6,14 +6,14 @@ class SpaceShip{
         this.health = health
         this.gameBoard = gameBoard
         this.bulletPos = []
-        this.playerWidth = 124
-        this.playerHeight = 124
+        this.playerWidth = 100
+        this.playerHeight = 100
         this.missileNumbers = 120
     }
     // When Spaceship moves left
     movesLeft(){
       if( this.xPos > 5){
-        this.xPos -= 5
+        this.xPos -= 15
       
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
@@ -26,7 +26,7 @@ class SpaceShip{
     movesRight(){
         
       if( this.xPos < 1285 ){
-        this.xPos += 5
+        this.xPos += 10
       
         this.selectedPlayer.style.left = this.xPos + "px" 
       }else{
@@ -38,7 +38,7 @@ class SpaceShip{
     // When Spaceship moves down
     movesDown(){
        if( this.yPos < 720 ){
-        this.yPos += 5
+        this.yPos += 10
         this.selectedPlayer.style.top = this.yPos + "px" 
        }else{
         this.yPos = 720
@@ -49,7 +49,7 @@ class SpaceShip{
     // When Spaceship moves up
     movesUp(){
       if( this.yPos > 5 ){
-        this.yPos -= 5
+        this.yPos -= 10
         this.selectedPlayer.style.top = this.yPos + "px"
       }else{
         this.yPos = 5
@@ -61,16 +61,16 @@ class SpaceShip{
     movesUpLeft(){
         if( this.yPos > 5   && this.xPos > 5 ){
 
-            this.yPos -= 5
+            this.yPos -= 10
          
         
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos -= 5
+            this.xPos -= 10
             this.selectedPlayer.style.left = this.xPos + "px"
         }
         else if(this.yPos > 5 && this.xPos < 5){
 
-            this.yPos -= 5
+            this.yPos -= 10
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos = 5
             this.selectedPlayer.style.left = this.xPos + "px" 
@@ -78,7 +78,7 @@ class SpaceShip{
         else if( this.yPos < 5 && this.xPos > 5){
             this.yPos = 5
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos -= 5
+            this.xPos -= 10
             this.selectedPlayer.style.left = this.xPos + "px"
         }
         else if( this.yPos < 5 && this.xPos < 5 ){
@@ -92,13 +92,13 @@ class SpaceShip{
     movesUpRight(){
 
         if( this.yPos > 5 && this.xPos < 1300  ){
-            this.yPos -= 5
+            this.yPos -= 10
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos += 5
+            this.xPos += 10
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
         else if( this.yPos > 5 && this.xPos > 1300){
-            this.yPos -= 5
+            this.yPos -= 10
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos = 1290
             this.selectedPlayer.style.left = this.xPos + "px"  
@@ -106,7 +106,7 @@ class SpaceShip{
         else if( this.yPos < 5 && this.xPos < 1300 ){
             this.yPos = 5
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos += 5
+            this.xPos += 10
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
         else if( this.yPos < 5 && this.xPos > 1300 ){
@@ -119,13 +119,13 @@ class SpaceShip{
     // When Spaceship moves down-left
     movesDownLeft(){
         if( this.yPos < 720 && this.xPos > 5 ){
-            this.xPos -= 5
+            this.xPos -= 10
             this.selectedPlayer.style.left = this.xPos + "px" 
-            this.yPos += 5
+            this.yPos += 10
             this.selectedPlayer.style.top = this.yPos + "px" 
         }
         else if(this.yPos < 720 && this.xPos < 5){
-            this.yPos += 5
+            this.yPos += 10
             this.selectedPlayer.style.top = this.yPos + "px"
             this.xPos = 5
             this.selectedPlayer.style.left = this.xPos + "px" 
@@ -134,7 +134,7 @@ class SpaceShip{
 
             this.yPos = 720
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos -= 5
+            this.xPos -= 10
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
         else if( this.yPos > 720 && this.xPos < 5){
@@ -147,20 +147,20 @@ class SpaceShip{
     // When Spaceship moves down-right
     movesDownRight(){
         if( this.yPos < 720 &&  this.xPos < 1300  ){
-            this.yPos += 5
+            this.yPos += 10
             this.selectedPlayer.style.top = this.yPos + "px"
-            this.xPos += 5
+            this.xPos += 10
             this.selectedPlayer.style.left = this.xPos + "px" 
         }
         else if( this.yPos < 720 &&  this.xPos > 1300 ){
             this.xPos = 1300
             this.selectedPlayer.style.left = this.xPos + "px"
-            this.yPos += 5
+            this.yPos += 10
             this.selectedPlayer.style.top = this.yPos + "px"
             
         }
         else if( this.yPos > 720 &&  this.xPos < 1300 ){
-            this.xPos += 5
+            this.xPos += 10
             this.selectedPlayer.style.left = this.xPos + "px"
             this.yPos = 720
             this.selectedPlayer.style.top = this.yPos + "px"
@@ -175,11 +175,11 @@ class SpaceShip{
     createBullet(){
       const  leftMissile = document.createElement('div')
       const  rightMissile = document.createElement('div')
-      let leftX = this.xPos + 1
-      let rightX = this.xPos + 110
+      let leftX = this.xPos - 5
+      let rightX = this.xPos + 80
       let yPos = this.yPos + 15
-      leftMissile.style.cssText="width:32px;height:32px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
-      rightMissile.style.cssText="width:32px;height:32px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
+      leftMissile.style.cssText="width:30px;height:30px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
+      rightMissile.style.cssText="width:30px;height:30px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
       const leftBullet = new Bullet(leftX, yPos, leftMissile)
       const rightBullet = new Bullet(rightX, yPos, rightMissile)
       this.bulletPos.push(rightBullet)
@@ -200,8 +200,13 @@ class SpaceShip{
         bullet.targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
         setTimeout(() => {
             bullet.targetElement.style.display="none"
-        },800)
+        },100)
       
        
+    }
+    stopBullets(){
+        this.bulletPos.map(bul => {
+            bul.moveNot()
+        })
     }
 }

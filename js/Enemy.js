@@ -1,5 +1,5 @@
 class Enemy{
-    constructor(xPos, yPos, health, selectedEnemy, gameBoard, eId){
+    constructor(xPos, yPos, health, selectedEnemy, gameBoard, eId, className){
         this.xPos = xPos
         this.yPos = yPos
         this.selectedEnemy = selectedEnemy
@@ -7,6 +7,8 @@ class Enemy{
         this.bulletPos = []
         this.gameBoard = gameBoard
         this.eId = eId
+        this.className = className
+        this.opacity = 1
     }
      // When Enemy moves left
      movesLeft(){
@@ -59,18 +61,69 @@ class Enemy{
 
     }
     wounded(index){
-    
+        console.log(this.selectedEnemy.className)
+        if(this.selectedEnemy.className === 'normal'){
             this.health -= 50
             this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
+        }
+        else{
+            this.health -= 30
+            this.opacity -= 0.1
+            this.selectedEnemy.style.opacity = this.opacity
+        }
+     
     }
-      
-
     clearEnemy(){
-        this.selectedEnemy.style.display = "none"
+        if(this.className === 'normal'){
+            this.selectedEnemy.style.display = "none"
+        }
+        else{
+            this.opacity = 1
+            this.selectedEnemy.style.opacity = this.opacity
+            if(this.className === "shield"){
+                this.selectedEnemy.style.backgroundImage = "url('/assets/images/shield.png')"
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
+                
+            }
+            else if(this.className === "health"){
+                this.selectedEnemy.style.backgroundImage = "url('/assets/images/health.png')"
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
+               
+            }
+            else if(this.className === "super-bomb"){
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
+                this.selectedEnemy.style.backgroundImage = "url('/assets/images/super-bomb.png')"
+               
+            }
+            else if(this.className === "ten-plus"){
+                this.selectedEnemy.style.background = "none"
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
+                this.selectedEnemy.style.color = "#ffa931"
+                this.selectedEnemy.innerText = "+10"
+                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
+                this.selectedEnemy.style.fontSize = "1.4em"
+              
+            }
+            setInterval( () => {
+                
+                this.yPos += 5
+                this.selectedEnemy.style.top = this.yPos + "px"
+            }, 1000);
+        }
+      
 
     }
     clearBullet(index){
        this.bulletPos.splice(index, 1)
        
+    }
+    stopBullets(){
+        this.bulletPos.map(bul => {
+            bul.moveNot()
+        })
     }
 }
