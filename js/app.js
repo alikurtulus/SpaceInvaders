@@ -61,7 +61,7 @@ const createMainModal = () => {
     controlsContentContainer.style.cssText = "display:flex;"
     const spaceBarContainer = document.createElement('div')
     const titleSpaceBarContainer = document.createElement('h3')
-
+    
     const spaceBarImg = document.createElement('img')
     titleSpaceBarContainer.style.cssText = "text-align:center;color:red;"
     titleSpaceBarContainer.innerText = "Hit"
@@ -70,7 +70,6 @@ const createMainModal = () => {
     spaceBarContainer.appendChild(titleSpaceBarContainer)
     spaceBarContainer.appendChild(spaceBarImg)
     controlsContentContainer.appendChild(spaceBarContainer)
-    
     const arrowKeysContainer = document.createElement('div')
     const titleArrowKeyContainer = document.createElement('h3')
     const arrowKeyImg = document.createElement('img')
@@ -134,6 +133,7 @@ let upTimer = null
 let downTimer = null
 let leftTimer = null
 let rightTimer = null
+const collectedGifts = []
 let enemyBulletMovementTimer = null
 let enemyBulletTimer = null
 let enemyInterval = null
@@ -146,13 +146,25 @@ spaceImg.style.cssText = "width:100px;height: 100px;"
 spaceShip.appendChild(spaceImg)
 spaceShip.id = "space-ship"
 let healthPer = document.getElementById('health')
+let giftsContainer = document.querySelector('#gifts-container')
 healthPer.style.cssText="background-color:#00FF00;width:100%;"
 let gameBoard = document.getElementById('game')
 gameBoard.appendChild(spaceShip)
 let woundPer = document.getElementById('wound')
 let scoreDisplay = document.getElementById('score')
 let player = new SpaceShip(650, 680, 100, spaceShip,gameBoard)
-
+let healthContainer = document.createElement('div')
+healthContainer.className ="gift-stats"
+healthContainer.id = "health-gifts"
+let shieldContainer = document.createElement('div')
+shieldContainer.className = "gift-stats"
+shieldContainer.id  = "shield-gifts"
+let tenPlusContainer = document.createElement('div')
+tenPlusContainer.className = "gift-stats"
+tenPlusContainer.id = "ten-plus-gifts"
+let superBombContainer = document.createElement('div')
+superBombContainer.className = "gift-stats"
+superBombContainer.id = "super-bomb-gifts"
 let bombNumbersDisplay = document.getElementById('bomb-numbers')
 healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
 let playerMissileSound = new Audio('/assets/sounds/player-missile.mp3')
@@ -461,28 +473,99 @@ createSoundContainer()
             
         } 
     }
+    const getFrequencyGifts = (arr,value) => {
+        return arr.filter((v) => v === value).length
+    }
     const getGifts = () => {
         if(giftsArr.length  > 0){
-            giftsArr.map( en => {
+            giftsArr.map( (en,index) => {
                 if((player.yPos  <= en.yPos + 32 ) && (en.xPos >= player.xPos && player.xPos + player.playerWidth >= en.xPos + 32)){
+                    
+                 
                     if(en.className === "health"){
+                        healthContainer.innerHTML = ""
                         collectItemSound.play()
                         en.selectedEnemy.style.display = "none"
-
+                        player.health += 20
+                        collectedGifts.push('health')
+                        healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
+                        giftsArr.splice(index,1)
+                        let totalHealth = getFrequencyGifts(collectedGifts,'health')
+                        const healthDiv = document.createElement('div')
+                        const healthImgIcon = document.createElement('img')
+                        healthImgIcon.className = "icon"
+                        healthImgIcon.setAttribute('src','../assets/images/health.png')
+                        healthDiv.appendChild(healthImgIcon)
+                        const healthStats = document.createElement('span')
+                        healthStats.className = "stats-content"
+                        healthStats.innerText = "X" + totalHealth
+                        healthDiv.appendChild(healthStats)
+                        healthContainer.appendChild(healthDiv)
+                        giftsContainer.appendChild(healthContainer)
+                
                     }
                     else if(en.className === "shield"){
+                        shieldContainer.innerHTML = ""
                         collectItemSound.play()
-                        console.log("shield")
                         en.selectedEnemy.style.display = "none"
+                        giftsArr.splice(index,1)
+                        collectedGifts.push('shield')
+                        let totalShield = getFrequencyGifts(collectedGifts,'shield')
+                        const shieldDiv = document.createElement('div')
+                        const shieldImgIcon = document.createElement('img')
+                        shieldImgIcon.className = "icon"
+                        shieldImgIcon.setAttribute('src','../assets/images/shield.png')
+                        shieldDiv.appendChild(shieldImgIcon)
+                        const shieldStats = document.createElement('span')
+                        shieldStats.className = "stats-content"
+                        shieldStats.innerText = "X" + totalShield
+                        shieldDiv.appendChild(shieldStats)
+                        shieldContainer.appendChild(shieldDiv)
+                        giftsContainer.appendChild(shieldContainer)
+
                     }
                     else if(en.className === "ten-plus"){
+                        tenPlusContainer.innerHTML = ""
                         collectItemSound.play()
-                        console.log("ten-plus")
+                        player.missileNumbers += 10
+                        bombNumbersDisplay.innerText = player.missileNumbers
                         en.selectedEnemy.style.display = "none"
+                        giftsArr.splice(index,1)
+                        collectedGifts.push('ten-plus')
+                        
+                        let totalTenPlus = getFrequencyGifts(collectedGifts,'ten-plus')
+                        const tenPlusDiv= document.createElement('div')
+                        const tenPlusImgIcon = document.createElement('img')
+                        tenPlusImgIcon.className = "icon"
+                        tenPlusImgIcon.setAttribute('src','../assets/images/ten-plus.png')
+                        tenPlusDiv.appendChild(tenPlusImgIcon)
+                        const tenPlusStats = document.createElement('span')
+                        tenPlusStats.className = "stats-content"
+                        tenPlusStats.innerText = "X" + totalTenPlus
+                        tenPlusDiv.appendChild(tenPlusStats)
+                        tenPlusContainer.appendChild(tenPlusDiv)
+                        giftsContainer.appendChild(tenPlusContainer)
+                        
                     }
                     else if(en.className === "super-bomb"){
+                        superBombContainer.innerHTML = ""
                         collectItemSound.play()
                         en.selectedEnemy.style.display = "none"
+                        giftsArr.splice(index,1)
+                        collectedGifts.push('super-bomb')
+                        let totalSuperBomb = getFrequencyGifts(collectedGifts,'super-bomb')
+                        const superBombDiv= document.createElement('div')
+                        const superBombImgIcon = document.createElement('img')
+                        superBombImgIcon.className = "icon"
+                        superBombImgIcon.setAttribute('src','../assets/images/super-bomb.png')
+                        superBombDiv.appendChild(superBombImgIcon)
+                        const superbombStats = document.createElement('span')
+                        superbombStats.className = "stats-content"
+                        superbombStats.innerText = "X" + totalSuperBomb
+                        superBombDiv.appendChild(superbombStats)
+                        superBombContainer.appendChild(superBombDiv)
+                        giftsContainer.appendChild(superBombContainer)
+                        
                     }
                 }
             })
@@ -537,8 +620,6 @@ createSoundContainer()
                     checkHitPossibilities(leftUpTimer)
                     player.movesUpLeft()
                     isSpaceShipTouchedAliens()
-                   
-                  
                 }
             }
             //When user press the right arrow key and up arrow key 
@@ -547,8 +628,6 @@ createSoundContainer()
                     checkHitPossibilities(rightUpTimer)
                     player.movesUpRight()
                     isSpaceShipTouchedAliens()
-                   
-                   
                 }
             }
             //When user press the left arrow key and down arrow key 
@@ -557,8 +636,6 @@ createSoundContainer()
                     checkHitPossibilities(leftDownTimer)
                     player.movesDownLeft()
                     isSpaceShipTouchedAliens()
-                  
-                  
                 } 
             }
             //When user press the right arrow key and down arrow key 
@@ -567,8 +644,6 @@ createSoundContainer()
                     checkHitPossibilities(rightDownTimer)
                     player.movesDownRight()
                     isSpaceShipTouchedAliens()
-                   
-                    
                 }
             }
             //When user press up arrow key 
@@ -577,8 +652,6 @@ createSoundContainer()
                     checkHitPossibilities(upTimer)
                     player.movesUp()
                     isSpaceShipTouchedAliens()
-                   
-                   
                 }
             }
             //When user press down arrow key 
