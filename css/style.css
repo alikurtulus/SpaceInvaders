@@ -119,3 +119,12 @@ body{
     width: 100%;
     height: 60px;
 }
+#gift-title{
+    color:red;
+    text-align: center;
+    position: relative;
+    font-size: 1em;
+    border-bottom:2px solid red;
+    width: 100%;
+
+}

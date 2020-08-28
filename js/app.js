@@ -184,7 +184,7 @@ let soundContent = null
 let soundImgIcon = null
 let isSoundOff = false
 let modalBtn =  null
-
+let isShield = false
 
 const createSoundContainer = () => {
     soundImgIcon = document.createElement('img')
@@ -286,7 +286,7 @@ createSoundContainer()
                         aliveEnemies[selectedEnemyIndex].enemy.fireBullet()
                         aliveEnemies.map(en => en.enemy.bulletPos.map((b,index) => {
                                 if( (player.xPos <= b.x) && (b.x < player.xPos + player.playerWidth)
-                                    && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) ){
+                                    && (b.y >= player.yPos) && (b.y< player.yPos + player.playerHeight) && isShield === false ){
             
                                     if(!isSoundOff){
                                         enemyMissileExplosionSound.play()
@@ -461,7 +461,7 @@ createSoundContainer()
                     bombNumbersDisplay.innerText = player.missileNumbers
                     timer = setInterval(() => {
                         checkBulletSucceed()
-                    },400)
+                    },500)
                 }
             }
             else if(player.missileNumbers < 1 && enemiesNumbers > 0){
@@ -480,8 +480,7 @@ createSoundContainer()
         if(giftsArr.length  > 0){
             giftsArr.map( (en,index) => {
                 if((player.yPos  <= en.yPos + 32 ) && (en.xPos >= player.xPos && player.xPos + player.playerWidth >= en.xPos + 32)){
-                    
-                 
+                
                     if(en.className === "health"){
                         healthContainer.innerHTML = ""
                         collectItemSound.play()
@@ -505,6 +504,8 @@ createSoundContainer()
                 
                     }
                     else if(en.className === "shield"){
+                        let shieldTime = 5
+                        isShield = true
                         shieldContainer.innerHTML = ""
                         collectItemSound.play()
                         en.selectedEnemy.style.display = "none"
@@ -513,6 +514,7 @@ createSoundContainer()
                         let totalShield = getFrequencyGifts(collectedGifts,'shield')
                         const shieldDiv = document.createElement('div')
                         const shieldImgIcon = document.createElement('img')
+                        const shieldTimerDiv = document.createElement('span')
                         shieldImgIcon.className = "icon"
                         shieldImgIcon.setAttribute('src','../assets/images/shield.png')
                         shieldDiv.appendChild(shieldImgIcon)
@@ -521,6 +523,21 @@ createSoundContainer()
                         shieldStats.innerText = "X" + totalShield
                         shieldDiv.appendChild(shieldStats)
                         shieldContainer.appendChild(shieldDiv)
+                        shieldDiv.appendChild(shieldTimerDiv)
+                        spaceShip.style.backgroundColor = "#84a9ac"
+                        const shieldTimerId =  setInterval(()=>{
+                            shieldTime -= 1
+                            shieldTimerDiv.innerText = " " + shieldTime
+                            spaceShip.style.backgroundColor = "#84a9ac"
+
+                        },1000)
+                        setTimeout(() => {
+                          clearInterval(shieldTimerId)
+                          isShield = false
+                          shieldTimerDiv.innerHTML = ""
+                          spaceShip.style.backgroundColor = "transparent "
+                        },5000)
+                       
                         giftsContainer.appendChild(shieldContainer)
 
                     }
