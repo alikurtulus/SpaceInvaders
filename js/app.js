@@ -158,6 +158,7 @@ healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
 let playerMissileSound = new Audio('/assets/sounds/player-missile.mp3')
 let enemyMissileExplosionSound = new Audio('/assets/sounds/enemy-missile-explosion.mp3')
 let playerMissileExplosionSound = new Audio('/assets/sounds/player-missile-explosion.mp3')
+let collectItemSound = new Audio('/assets/sounds/collect-item.mp3')
 let isPaused = false
 let enemies = []
 let enemyWidth = 64
@@ -463,18 +464,25 @@ createSoundContainer()
     const getGifts = () => {
         if(giftsArr.length  > 0){
             giftsArr.map( en => {
-                if((player.yPos  <= en.yPos + enemyHeight ) && (en.xPos <= player.xPos && player.xPos <= en.xPos + enemyWidth)){
+                if((player.yPos  <= en.yPos + 32 ) && (en.xPos >= player.xPos && player.xPos + player.playerWidth >= en.xPos + 32)){
                     if(en.className === "health"){
-                        console.log("health")
+                        collectItemSound.play()
+                        en.selectedEnemy.style.display = "none"
+
                     }
                     else if(en.className === "shield"){
+                        collectItemSound.play()
                         console.log("shield")
+                        en.selectedEnemy.style.display = "none"
                     }
                     else if(en.className === "ten-plus"){
+                        collectItemSound.play()
                         console.log("ten-plus")
+                        en.selectedEnemy.style.display = "none"
                     }
                     else if(en.className === "super-bomb"){
-                        console.log("super-bomb")
+                        collectItemSound.play()
+                        en.selectedEnemy.style.display = "none"
                     }
                 }
             })
@@ -483,7 +491,7 @@ createSoundContainer()
     }
     const giftsTimer = setInterval(() => {
         getGifts()
-    }, 500);
+    }, 200);
     const isSpaceShipTouchedAliens = () => {
         enemies.map(en => {
              if( (player.yPos  <= en.enemy.yPos + enemyHeight  ) && (en.enemy.xPos <= player.xPos && player.xPos <= en.enemy.xPos + enemyWidth)){
@@ -527,8 +535,9 @@ createSoundContainer()
             if( keysPressed[38] && keysPressed[37]){
                 if(!isPaused){
                     checkHitPossibilities(leftUpTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesUpLeft()
+                    isSpaceShipTouchedAliens()
+                   
                   
                 }
             }
@@ -536,8 +545,9 @@ createSoundContainer()
             else if( keysPressed[38] && keysPressed[39] ){
                 if(!isPaused){
                     checkHitPossibilities(rightUpTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesUpRight()
+                    isSpaceShipTouchedAliens()
+                   
                    
                 }
             }
@@ -545,8 +555,9 @@ createSoundContainer()
             else if( keysPressed[40] && keysPressed[37] ){
                 if(!isPaused){
                     checkHitPossibilities(leftDownTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesDownLeft()
+                    isSpaceShipTouchedAliens()
+                  
                   
                 } 
             }
@@ -554,8 +565,9 @@ createSoundContainer()
             else if( keysPressed[40] && keysPressed[39] ){
                 if(!isPaused){
                     checkHitPossibilities(rightDownTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesDownRight()
+                    isSpaceShipTouchedAliens()
+                   
                     
                 }
             }
@@ -563,8 +575,9 @@ createSoundContainer()
             else if( keysPressed[38] ){
                 if(!isPaused){
                     checkHitPossibilities(upTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesUp()
+                    isSpaceShipTouchedAliens()
+                   
                    
                 }
             }
@@ -572,8 +585,9 @@ createSoundContainer()
             else if( keysPressed[40] ){
                 if(!isPaused){
                     checkHitPossibilities(downTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesDown()
+                    isSpaceShipTouchedAliens()
+                   
                     
                 }
             }
@@ -581,8 +595,9 @@ createSoundContainer()
             else if( keysPressed[37] ){
                 if(!isPaused){
                     checkHitPossibilities(leftTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesLeft()
+                    isSpaceShipTouchedAliens()
+                    
                     
                 }
             }
@@ -590,8 +605,9 @@ createSoundContainer()
             else if( keysPressed[39] ){
                 if(!isPaused){
                     checkHitPossibilities(rightTimer)
-                    isSpaceShipTouchedAliens()
                     player.movesRight()
+                    isSpaceShipTouchedAliens()
+                  
                     
                 }
             }

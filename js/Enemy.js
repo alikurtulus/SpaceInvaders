@@ -82,26 +82,26 @@ class Enemy{
             this.selectedEnemy.style.opacity = this.opacity
             if(this.className === "shield"){
                 this.selectedEnemy.style.backgroundImage = "url('/assets/images/shield.png')"
-                this.selectedEnemy.style.backgroundSize = " 50% 50%"
-                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
-                this.selectedEnemy.style.backgroundPosition = "center"
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
+                
             }
             else if(this.className === "health"){
                 this.selectedEnemy.style.backgroundImage = "url('/assets/images/health.png')"
-                this.selectedEnemy.style.backgroundSize = " 50% 50%"
-                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
-                this.selectedEnemy.style.backgroundPosition = "center"
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
+               
             }
             else if(this.className === "super-bomb"){
-               
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
                 this.selectedEnemy.style.backgroundImage = "url('/assets/images/super-bomb.png')"
-                this.selectedEnemy.style.backgroundSize = " 50% 50%"
-                this.selectedEnemy.style.backgroundRepeat = "no-repeat"
-                this.selectedEnemy.style.backgroundPosition = "center"
+               
             }
             else if(this.className === "ten-plus"){
                 this.selectedEnemy.style.background = "none"
-               
+                this.selectedEnemy.style.width = "32px"
+                this.selectedEnemy.style.height = "32px"
                 this.selectedEnemy.style.color = "#ffa931"
                 this.selectedEnemy.innerText = "+10"
                 this.selectedEnemy.style.backgroundRepeat = "no-repeat"
