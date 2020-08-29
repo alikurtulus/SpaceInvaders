@@ -185,6 +185,7 @@ let soundImgIcon = null
 let isSoundOff = false
 let modalBtn =  null
 let isShield = false
+let isSuperBomb = false
 
 const createSoundContainer = () => {
     soundImgIcon = document.createElement('img')
@@ -369,7 +370,7 @@ createSoundContainer()
                         }
                         if(en.enemy.health > 0){
                             score += 10
-                            en.enemy.wounded(index)
+                            en.enemy.wounded(index,isSuperBomb)
                         }
                         else{
                             if(en.enemy.className !== "normal"){
@@ -439,8 +440,7 @@ createSoundContainer()
             modalContainer.style.display = "none"
             backDropModal.style.display = "none"
             score = 0
-            player.health = 100 
-            player.missileNumbers = 120
+            player = null
             isPaused = false
             soundContainer.innerHTML = ""
             healthPer.style.cssText="background-color:#00FF00;width:100%;"
@@ -453,7 +453,7 @@ createSoundContainer()
         if( keysPressed[32] ){
             if(player.missileNumbers >= 2){
                 if(!isPaused){
-                    player.createBullet()
+                    player.createBullet(isSuperBomb)
                     if(!isSoundOff){
                     playerMissileSound.play()
                     }
@@ -504,7 +504,7 @@ createSoundContainer()
                 
                     }
                     else if(en.className === "shield"){
-                        let shieldTime = 5
+                        let shieldTime = 6
                         isShield = true
                         shieldContainer.innerHTML = ""
                         collectItemSound.play()
@@ -529,6 +529,7 @@ createSoundContainer()
                             shieldTime -= 1
                             shieldTimerDiv.innerText = " " + shieldTime
                             spaceShip.style.backgroundColor = "#84a9ac"
+                            spaceShip.style.opacity = 0.7
 
                         },1000)
                         setTimeout(() => {
@@ -536,6 +537,7 @@ createSoundContainer()
                           isShield = false
                           shieldTimerDiv.innerHTML = ""
                           spaceShip.style.backgroundColor = "transparent "
+                          spaceShip.style.opacity = 1
                         },5000)
                        
                         giftsContainer.appendChild(shieldContainer)
@@ -565,6 +567,8 @@ createSoundContainer()
                         
                     }
                     else if(en.className === "super-bomb"){
+                        let superBombTime = 6
+                        isSuperBomb = true
                         superBombContainer.innerHTML = ""
                         collectItemSound.play()
                         en.selectedEnemy.style.display = "none"
@@ -573,6 +577,7 @@ createSoundContainer()
                         let totalSuperBomb = getFrequencyGifts(collectedGifts,'super-bomb')
                         const superBombDiv= document.createElement('div')
                         const superBombImgIcon = document.createElement('img')
+                        const superBombTimeDisplay = document.createElement('span')
                         superBombImgIcon.className = "icon"
                         superBombImgIcon.setAttribute('src','../assets/images/super-bomb.png')
                         superBombDiv.appendChild(superBombImgIcon)
@@ -581,7 +586,20 @@ createSoundContainer()
                         superbombStats.innerText = "X" + totalSuperBomb
                         superBombDiv.appendChild(superbombStats)
                         superBombContainer.appendChild(superBombDiv)
+                        superBombDiv.appendChild(superBombTimeDisplay)
                         giftsContainer.appendChild(superBombContainer)
+                        
+
+                        const superBombTimerId =  setInterval(()=>{
+                            superBombTime -= 1
+                            superBombTimeDisplay.innerText = " " + superBombTime
+                           
+                        },1000)
+                        setTimeout(() => {
+                          clearInterval(superBombTimerId)
+                          isSuperBomb = false
+                          superBombTimeDisplay.innerHTML = ""
+                        },5000)
                         
                     }
                 }
@@ -594,7 +612,8 @@ createSoundContainer()
     }, 200);
     const isSpaceShipTouchedAliens = () => {
         enemies.map(en => {
-             if( (player.yPos  <= en.enemy.yPos + enemyHeight  ) && (en.enemy.xPos <= player.xPos && player.xPos <= en.enemy.xPos + enemyWidth)){
+             if( (player.yPos  <= en.enemy.yPos + enemyHeight  ) 
+             && (en.enemy.xPos <= player.xPos && player.xPos <= en.enemy.xPos + enemyWidth) && isShield === false ){
                 if(en.isAlive === "alive"){
                     playerMissileExplosionSound.play()
                     playerMissileExplosionSound.play()

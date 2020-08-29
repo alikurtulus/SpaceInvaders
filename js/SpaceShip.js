@@ -8,7 +8,7 @@ class SpaceShip{
         this.bulletPos = []
         this.playerWidth = 100
         this.playerHeight = 100
-        this.missileNumbers = 120
+        this.missileNumbers = 200
     }
     // When Spaceship moves left
     movesLeft(){
@@ -172,14 +172,21 @@ class SpaceShip{
             this.selectedPlayer.style.left = this.xPos + "px"  
         }
     }
-    createBullet(){
+    createBullet(isSuperBomb){
       const  leftMissile = document.createElement('div')
       const  rightMissile = document.createElement('div')
       let leftX = this.xPos - 5
       let rightX = this.xPos + 80
       let yPos = this.yPos + 15
-      leftMissile.style.cssText="width:30px;height:30px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
-      rightMissile.style.cssText="width:30px;height:30px;background-image:url('/assets/images/bullet.png');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
+      let imageName 
+      if(isSuperBomb){
+          imageName = "super-bomb.png"
+      }
+      else{
+        imageName = "bullet.png"
+      }
+      leftMissile.style.cssText="width:30px;height:30px;background-image:url('/assets/images/"+imageName +"');background-size:cover;top:"+yPos+"px;left:"+leftX+"px;position:absolute;"
+      rightMissile.style.cssText="width:30px;height:30px;background-image:url('/assets/images/"+imageName +"');background-size:cover;top:"+yPos+"px;left:"+rightX+"px;position:absolute;"
       const leftBullet = new Bullet(leftX, yPos, leftMissile)
       const rightBullet = new Bullet(rightX, yPos, rightMissile)
       this.bulletPos.push(rightBullet)
