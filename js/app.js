@@ -152,7 +152,7 @@ let gameBoard = document.getElementById('game')
 gameBoard.appendChild(spaceShip)
 let woundPer = document.getElementById('wound')
 let scoreDisplay = document.getElementById('score')
-let player = new SpaceShip(650, 680, 100, spaceShip,gameBoard)
+let player = new SpaceShip(650, 680, 100, spaceShip,gameBoard, 200)
 let healthContainer = document.createElement('div')
 healthContainer.className ="gift-stats"
 healthContainer.id = "health-gifts"
@@ -197,7 +197,6 @@ const createSoundContainer = () => {
     soundContainer.appendChild(soundImgIcon)
     soundContainer.appendChild(soundContent)
 }
-
 
 createSoundContainer()
     const createEnemies = () => {
@@ -319,6 +318,7 @@ createSoundContainer()
                                             backDropModal.style.display = "none"
                                             gameBoard.innerHTML = ""
                                             score = 0
+                                            player = null
                                             isPaused = true
                                             player.health = 100 
                                             player.missileNumbers = 120
@@ -469,8 +469,6 @@ createSoundContainer()
                 player.health = 100
                 gameOver()
             }
-            
-            
         } 
     }
     const getFrequencyGifts = (arr,value) => {
@@ -538,7 +536,7 @@ createSoundContainer()
                           shieldTimerDiv.innerHTML = ""
                           spaceShip.style.backgroundColor = "transparent "
                           spaceShip.style.opacity = 1
-                        },5000)
+                        },6000)
                        
                         giftsContainer.appendChild(shieldContainer)
 
@@ -599,7 +597,7 @@ createSoundContainer()
                           clearInterval(superBombTimerId)
                           isSuperBomb = false
                           superBombTimeDisplay.innerHTML = ""
-                        },5000)
+                        },6000)
                         
                     }
                 }

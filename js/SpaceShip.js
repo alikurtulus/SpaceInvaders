@@ -1,5 +1,5 @@
 class SpaceShip{
-    constructor(xPos, yPos, health, selectedPlayer, gameBoard){
+    constructor(xPos, yPos, health, selectedPlayer, gameBoard, missileNumbers){
         this.xPos = xPos
         this.yPos = yPos
         this.selectedPlayer = selectedPlayer
@@ -8,7 +8,7 @@ class SpaceShip{
         this.bulletPos = []
         this.playerWidth = 100
         this.playerHeight = 100
-        this.missileNumbers = 200
+        this.missileNumbers = missileNumbers
     }
     // When Spaceship moves left
     movesLeft(){
@@ -203,11 +203,13 @@ class SpaceShip{
        return this.bulletPos
     }
     clearBullet(bullet, index){
-        this.bulletPos.splice(index, 1)
-        bullet.targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
+     
+        this.bulletPos[index].targetElement.style.backgroundImage ="url('/assets/images/spaceship-bomb.png')"
+        
         setTimeout(() => {
-            bullet.targetElement.style.display="none"
-        },100)
+            this.bulletPos[index].targetElement.style.display = "none"
+            this.bulletPos.splice(index, 1)
+        },150)
       
        
     }
