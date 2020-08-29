@@ -60,14 +60,21 @@ class Enemy{
         })
 
     }
-    wounded(index){
+    wounded(index,isSuperBomb){
         console.log(this.selectedEnemy.className)
+        let woundPer 
+        if(isSuperBomb){
+            woundPer -= 100 
+        }
+        else{
+            woundPer = 50
+        }
         if(this.selectedEnemy.className === 'normal'){
-            this.health -= 50
+            this.health -= woundPer
             this.selectedEnemy.style.backgroundImage = "url('/assets/images/wound-enemy.png')"
         }
         else{
-            this.health -= 30
+            this.health -= woundPer - 30
             this.opacity -= 0.1
             this.selectedEnemy.style.opacity = this.opacity
         }
@@ -110,7 +117,7 @@ class Enemy{
             }
             setInterval( () => {
                 
-                this.yPos += 5
+                this.yPos += 10
                 this.selectedEnemy.style.top = this.yPos + "px"
             }, 1000);
         }
