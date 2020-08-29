@@ -117,7 +117,7 @@ class Enemy{
             }
             setInterval( () => {
                 
-                this.yPos += 5
+                this.yPos += 10
                 this.selectedEnemy.style.top = this.yPos + "px"
             }, 1000);
         }

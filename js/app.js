@@ -152,7 +152,7 @@ let gameBoard = document.getElementById('game')
 gameBoard.appendChild(spaceShip)
 let woundPer = document.getElementById('wound')
 let scoreDisplay = document.getElementById('score')
-let player = new SpaceShip(650, 680, 100, spaceShip,gameBoard, 200)
+let player = new SpaceShip(650, 680, 100, spaceShip,gameBoard, 180)
 let healthContainer = document.createElement('div')
 healthContainer.className ="gift-stats"
 healthContainer.id = "health-gifts"
