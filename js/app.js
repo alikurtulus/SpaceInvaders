@@ -124,6 +124,7 @@ btnStart.addEventListener('click', (e) => {
 // Controls sound on - off
 
 const init = () => {
+
 const giftsArr = []
 let leftUpTimer = null
 let rightUpTimer = null
@@ -186,6 +187,8 @@ let isSoundOff = false
 let modalBtn =  null
 let isShield = false
 let isSuperBomb = false
+let shieldTimerId  = null
+let superBombTimerId = null
 
 const createSoundContainer = () => {
     soundImgIcon = document.createElement('img')
@@ -320,10 +323,8 @@ createSoundContainer()
                                             score = 0
                                             player = null
                                             isPaused = true
-                                            player.health = 100 
-                                            player.missileNumbers = 120
                                             injuredNumbers = 0
-                                            healthPer.style.cssText="background-color:#00FF00;width:"+ player.health  + "%;"
+                                            healthPer.style.cssText="background-color:#00FF00;width:100%;"
                                             init()
                                         })
                                     }
@@ -354,7 +355,6 @@ createSoundContainer()
         }
        
     },900)
-    
     // When Spaceship hits the alien 
     const checkBulletSucceed = () => {
         let spaceShipsBullets
@@ -369,22 +369,22 @@ createSoundContainer()
                         playerMissileExplosionSound.play()
                         }
                         if(en.enemy.health > 0){
-                            score += 10
-                            en.enemy.wounded(index,isSuperBomb)
+                                    score += 10
+                                    en.enemy.wounded(index,isSuperBomb)
                         }
                         else{
-                            if(en.enemy.className !== "normal"){
-                               en.isAlive = "gift"
-                               giftsArr.push(en.enemy)
-                            }
-                            else{
-                                en.isAlive = "death"
-                            }
-                            en.enemy.clearEnemy()
-                            en.enemy.clearBullet(index)
-                            enemiesNumbers -= 1
-                            score += 20
-                            winner()
+                                if(en.enemy.className !== "normal"){
+                                    en.isAlive = "gift"
+                                    giftsArr.push(en.enemy)
+                                }
+                                else{
+                                    en.isAlive = "death"
+                                }
+                                en.enemy.clearEnemy()
+                                en.enemy.clearBullet(index)
+                                enemiesNumbers -= 1
+                                score += 20
+                                winner()
                         }
                         scoreDisplay.innerText = score
                         player.clearBullet(bullet, bulletIndex)
@@ -523,7 +523,7 @@ createSoundContainer()
                         shieldContainer.appendChild(shieldDiv)
                         shieldDiv.appendChild(shieldTimerDiv)
                         spaceShip.style.backgroundColor = "#84a9ac"
-                        const shieldTimerId =  setInterval(()=>{
+                        shieldTimerId =  setInterval(()=>{
                             shieldTime -= 1
                             shieldTimerDiv.innerText = " " + shieldTime
                             spaceShip.style.backgroundColor = "#84a9ac"
@@ -588,7 +588,7 @@ createSoundContainer()
                         giftsContainer.appendChild(superBombContainer)
                         
 
-                        const superBombTimerId =  setInterval(()=>{
+                        superBombTimerId =  setInterval(()=>{
                             superBombTime -= 1
                             superBombTimeDisplay.innerText = " " + superBombTime
                            
@@ -638,7 +638,6 @@ createSoundContainer()
              } 
         })
     }
-
     
     // Check all keys's value from the user
     document.body.addEventListener('keydown', (e) => {
@@ -761,6 +760,8 @@ createSoundContainer()
         }
     })
     const clearAll = () => {
+        clearInterval(shieldTimerId)
+        clearInterval(superBombTimerId)
         clearInterval(enemyInterval)
         clearInterval(enemyBulletTimer)
         clearInterval(leftUpTimer)
