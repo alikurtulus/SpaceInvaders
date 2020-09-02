@@ -1,1 +1,133 @@
-<!doctype html><html lang="en"><head><title></title><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="css/style.css" rel="stylesheet"><link rel="shortcut icon" href=""></head><body><div class="backdrop"></div><div class="modal"></div><div class="container"><div id="game"></div><div id="stats-container"><h2 id="stats-title">Stats</h2><div id="health-container"><img class="heart-icon" src="/assets/images/heartbeat.png"><div id="health-bar"><div id="health"></div><div id="wound"></div></div></div><div id="general-stats-container"><div id="score-container"><img class="icon" src="/assets/images/explosion.png"> <span class="stats-content">Score: <span id="score">0</span></span></div><div id="bomb-number-container"><img class="icon" src="/assets/images/bullet.png"> <span class="stats-content">Bombs: <span id="bomb-numbers">180</span></span></div><div id="esc-key-container"><img class="icon" src="/assets/images/esc-key.png"> <span class="stats-content">Pause</span></div><div id="sound-container"></div><div id="gifts-container"><h3 id="gift-title">Gifts</h3></div></div></div></div><script src="js/lib/instructions.js"></script><script src="js/Modal.js"></script><script src="js/Bullet.js"></script><script src="js/SpaceShip.js"></script><script src="js/Enemy.js"></script><script src="js/app.js"></script><script src="bundle.js"></script></body></html>
+Html Webpack Plugin:
+<pre>
+  Error: Child compilation failed:
+  Entry module not found: Error: Can't resolve 'C:\Users\ALI-PC\development\index.html' in 'C:\Users\ALI-PC\development\SpaceInvaders':
+  Error: Can't resolve 'C:\Users\ALI-PC\development\index.html' in 'C:\Users\ALI-PC\development\SpaceInvaders'
+  EntryModuleNotFoundError: Entry module not found: Error: Can't resolve 'C:\Users\ALI-PC\development\index.html' in 'C:\Users\ALI-PC\development\SpaceInvaders'
+  
+  - Compilation.js:1075 
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1075:31
+  
+  - NormalModuleFactory.js:401 
+    [SpaceInvaders]/[webpack]/lib/NormalModuleFactory.js:401:22
+  
+  - NormalModuleFactory.js:130 
+    [SpaceInvaders]/[webpack]/lib/NormalModuleFactory.js:130:21
+  
+  - NormalModuleFactory.js:224 
+    [SpaceInvaders]/[webpack]/lib/NormalModuleFactory.js:224:22
+  
+  - async.js:2830 
+    [SpaceInvaders]/[neo-async]/async.js:2830:7
+  
+  - async.js:6877 
+    [SpaceInvaders]/[neo-async]/async.js:6877:13
+  
+  - NormalModuleFactory.js:214 
+    [SpaceInvaders]/[webpack]/lib/NormalModuleFactory.js:214:25
+  
+  - Resolver.js:213 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:213:14
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - UnsafeCachePlugin.js:44 
+    [SpaceInvaders]/[enhanced-resolve]/lib/UnsafeCachePlugin.js:44:7
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - DescriptionFilePlugin.js:67 
+    [SpaceInvaders]/[enhanced-resolve]/lib/DescriptionFilePlugin.js:67:43
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - Resolver.js:285 
+    [SpaceInvaders]/[enhanced-resolve]/lib/Resolver.js:285:5
+  
+  
+  - DirectoryExistsPlugin.js:27 
+    [SpaceInvaders]/[enhanced-resolve]/lib/DirectoryExistsPlugin.js:27:15
+  
+  - CachedInputFileSystem.js:85 
+    [SpaceInvaders]/[enhanced-resolve]/lib/CachedInputFileSystem.js:85:15
+  
+  - task_queues.js:79 processTicksAndRejections
+    internal/process/task_queues.js:79:11
+  
+  - child-compiler.js:131 
+    [SpaceInvaders]/[html-webpack-plugin]/lib/child-compiler.js:131:18
+  
+  - Compiler.js:343 
+    [SpaceInvaders]/[webpack]/lib/Compiler.js:343:11
+  
+  - Compiler.js:681 
+    [SpaceInvaders]/[webpack]/lib/Compiler.js:681:15
+  
+  
+  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
+    [SpaceInvaders]/[tapable]/lib/Hook.js:154:20
+  
+  - Compiler.js:678 
+    [SpaceInvaders]/[webpack]/lib/Compiler.js:678:31
+  
+  
+  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
+    [SpaceInvaders]/[tapable]/lib/Hook.js:154:20
+  
+  - Compilation.js:1423 
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1423:35
+  
+  
+  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
+    [SpaceInvaders]/[tapable]/lib/Hook.js:154:20
+  
+  - Compilation.js:1414 
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1414:32
+  
+  
+  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
+    [SpaceInvaders]/[tapable]/lib/Hook.js:154:20
+  
+  - Compilation.js:1409 
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1409:36
+  
+  
+  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
+    [SpaceInvaders]/[tapable]/lib/Hook.js:154:20
+  
+  - Compilation.js:1405 
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1405:32
+  
+  
+  - Hook.js:154 AsyncSeriesHook.lazyCompileHook
+    [SpaceInvaders]/[tapable]/lib/Hook.js:154:20
+  
+  - Compilation.js:1342 Compilation.seal
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1342:27
+  
+  - Compiler.js:675 
+    [SpaceInvaders]/[webpack]/lib/Compiler.js:675:18
+  
+  - Compilation.js:1261 
+    [SpaceInvaders]/[webpack]/lib/Compilation.js:1261:4
+  
+  
+</pre><script src="bundle.js"></script>
